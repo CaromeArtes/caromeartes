@@ -147,6 +147,14 @@
                 header.style.backgroundColor = 'rgba(245, 241, 235, 0.95)';
             }
         });
+
+        // Atualiza o texto do banner principal
+        document.addEventListener('DOMContentLoaded', function() {
+            const heroTitle = document.querySelector('.hero-text h1');
+            if (heroTitle) {
+                heroTitle.textContent = 'Onde o fio se transforma em arte';
+            }
+        });
     </script>
 </body>
 </html><!DOCTYPE html>
@@ -161,6 +169,8 @@
             padding: 0;
             box-sizing: border-box;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Georgia', serif;
@@ -791,6 +801,7 @@
         <nav class="nav-right">
             <a href="#" class="nav-item" onclick="showPage('home')">Home</a>
             <a href="#" class="nav-item" onclick="showPage('shop')">Loja</a>
+            <a href="#contato" class="nav-item">Contato</a>
             <a href="https://www.instagram.com/caromeartes/" target="_blank" class="instagram-btn">
                 <div class="instagram-icon"></div>
                 Instagram
@@ -1068,6 +1079,22 @@
             </div>
         </div>
     </div>
+
+    <!-- Contato / Footer -->
+    <footer id="contato" class="section">
+        <h2 class="section-title">Contato</h2>
+        <div class="cta-buttons">
+            <a href="https://wa.me/5541995358400" class="modal-whatsapp" target="_blank" rel="noopener">
+                <div class="whatsapp-icon"></div>
+                WhatsApp
+            </a>
+            <a href="mailto:contato@caromeartes.com.br" class="cta-button">E-mail</a>
+            <a href="https://www.instagram.com/caromeartes/" target="_blank" class="instagram-btn" rel="noopener">
+                <div class="instagram-icon"></div>
+                Instagram
+            </a>
+        </div>
+    </footer>
 
     <!-- Modal de Detalhes -->
     <div id="productModal" class="modal">
