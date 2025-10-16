@@ -1,0 +1,1118 @@
+<script>
+        // Dados dos produtos
+        const products = {
+            'suporte-pequeno': {
+                title: 'Suporte para Plantas Pequeno',
+                price: 'R$ 45,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-08-06%20at%2010.37.30%20(1).jpeg',
+                description: 'Perfeito para suas plantas menores, este suporte de macramê adiciona um toque boho chic ao seu ambiente. Feito com cordas de algodão de alta qualidade, é resistente e durável.',
+                features: ['Corda 100% algodão', 'Suporta até 3kg', 'Ideal para vasos de 12-15cm', 'Fácil instalação', 'Design minimalista'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte para Plantas Pequeno (R$ 45,00). Poderia me dar mais informações?'
+            },
+            'porta-copos': {
+                title: 'Porta-copos Artesanal',
+                price: 'R$ 25,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-08-06%20at%2010.37.29.jpeg',
+                description: 'Conjunto de porta-copos únicos feitos em macramê. Protege seus móveis com estilo e elegância, perfeitos para receber visitas ou uso diário.',
+                features: ['Set com 4 unidades', 'Material: algodão natural', 'Lavável', 'Absorve umidade', 'Design exclusivo'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse no Porta-copos Artesanal (R$ 25,00). Poderia me dar mais informações?'
+            },
+            'suporte-vaso': {
+                title: 'Suporte com Vaso Incluído',
+                price: 'R$ 65,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-08-06%20at%2010.37.31.jpeg',
+                description: 'Conjunto completo com suporte de macramê e vaso de cerâmica. Uma solução pronta para suas plantas, combinando funcionalidade e beleza.',
+                features: ['Vaso de cerâmica incluso', 'Suporte em macramê', 'Pronto para uso', 'Suporta até 4kg', 'Cores harmoniosas'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte com Vaso Incluído (R$ 65,00). Poderia me dar mais informações?'
+            },
+            'painel-parede': {
+                title: 'Painel de Parede Grande',
+                price: 'R$ 120,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/039956d0-5ff1-4b8d-9748-cf7c24715d0b.jpeg',
+                description: 'Impressionante painel decorativo que transforma qualquer parede em uma obra de arte. Ideal para salas, quartos ou escritórios que buscam um toque artesanal.',
+                features: ['Dimensões: 80x60cm', 'Corda premium', 'Fixação inclusa', 'Peça única', 'Acabamento artesanal'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse no Painel de Parede Grande (R$ 120,00). Poderia me dar mais informações?'
+            },
+            'suporte-medio': {
+                title: 'Suporte para Plantas Médio',
+                price: 'R$ 55,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/5192af81-04ec-406f-b82b-35863a6ab8e3.jpeg',
+                description: 'Suporte de tamanho médio, perfeito para plantas de porte intermediário. Design elegante que se adapta a diversos estilos de decoração.',
+                features: ['Tamanho médio versátil', 'Suporta até 5kg', 'Ideal para vasos 15-20cm', 'Cordas reforçadas', 'Design contemporâneo'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte para Plantas Médio (R$ 55,00). Poderia me dar mais informações?'
+            },
+            'prateleira': {
+                title: 'Prateleira Suspensa',
+                price: 'R$ 85,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/65570cac-9652-439f-81b5-adbdef48219e.jpeg',
+                description: 'Prateleira suspensa funcional e decorativa. Ideal para organizar objetos pequenos, livros ou plantas, otimizando o espaço com estilo.',
+                features: ['Prateleira de madeira', 'Suspensão em macramê', 'Capacidade: 8kg', 'Fácil instalação', 'Multifuncional'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse na Prateleira Suspensa (R$ 85,00). Poderia me dar mais informações?'
+            },
+            'chaveiro': {
+                title: 'Chaveiro Folha',
+                price: 'R$ 15,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/a8c74ba1-3f5a-477a-b312-ce0c471bea67.jpeg',
+                description: 'Delicado chaveiro em formato de folha, feito em macramê. Um presente perfeito ou acessório charmoso para suas chaves.',
+                features: ['Design folha natural', 'Tamanho compacto', 'Argola resistente', 'Cores variadas', 'Presente ideal'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse no Chaveiro Folha (R$ 15,00). Poderia me dar mais informações?'
+            },
+            'porta-copos-kit': {
+                title: 'Porta-copos Kit 4 unidades',
+                price: 'R$ 35,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/ffe2fed1-a91b-4cec-acb0-e9859d19c68d.jpeg',
+                description: 'Kit completo com 4 porta-copos em designs variados. Perfeito para receber amigos e proteger seus móveis com muito estilo.',
+                features: ['Kit com 4 peças', 'Designs variados', 'Material resistente', 'Fácil limpeza', 'Embalagem presente'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse no Porta-copos Kit 4 unidades (R$ 35,00). Poderia me dar mais informações?'
+            },
+            'suporte-duplo': {
+                title: 'Suporte Duplo para Plantas',
+                price: 'R$ 95,00',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-09-25%20at%2020.52.03.jpeg',
+                description: 'Suporte inovador que comporta duas plantas em alturas diferentes, criando um jardim vertical encantador. Maximiza o espaço e o visual.',
+                features: ['Suporta 2 plantas', 'Alturas diferentes', 'Capacidade total: 8kg', 'Design vertical', 'Otimiza espaço'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte Duplo para Plantas (R$ 95,00). Poderia me dar mais informações?'
+            },
+            'personalizado': {
+                title: 'Peça Personalizada',
+                price: 'Sob consulta',
+                image: 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/hero-1757707349006.jpeg',
+                description: 'Crie a peça dos seus sonhos! Trabalhamos junto com você para desenvolver um produto único, especialmente pensado para o seu espaço e necessidades.',
+                features: ['Design exclusivo', 'Cores personalizadas', 'Tamanhos sob medida', 'Consultoria incluída', 'Peça única no mundo'],
+                whatsapp: 'https://wa.me/5541995358400?text=Olá! Gostaria de encomendar uma peça personalizada de macramê. Podemos conversar sobre as possibilidades?'
+            }
+        };
+
+        function openModal(productId) {
+            const product = products[productId];
+            if (!product) return;
+
+            document.getElementById('modalTitle').textContent = product.title;
+            document.getElementById('modalPrice').textContent = product.price;
+            document.getElementById('modalImage').src = product.image;
+            document.getElementById('modalDescription').textContent = product.description;
+            document.getElementById('modalWhatsapp').href = product.whatsapp;
+
+            const featuresList = document.getElementById('modalFeatures');
+            featuresList.innerHTML = '';
+            product.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fechar modal clicando fora (verifica se o elemento existe)
+        (function() {
+            const modalEl = document.getElementById('productModal');
+            if (modalEl) {
+                modalEl.addEventListener('click', function(e) {
+                    if (e.target === modalEl) {
+                        closeModal();
+                    }
+                });
+            }
+        })();
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        function showPage(pageId) {
+            // Ocultar todas as páginas
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Mostrar a página selecionada
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Adicionar efeito de scroll suave para o header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(245, 241, 235, 0.98)';
+            } else {
+                header.style.backgroundColor = 'rgba(245, 241, 235, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAROMÊ - Arte em Macramê</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #F5F1EB;
+            color: #8B6F47;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(245, 241, 235, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(139, 111, 71, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: #8B6F47;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background-color: #E6DDD4;
+            transform: translateY(-2px);
+        }
+
+        .instagram-btn {
+            background: linear-gradient(45deg, #E4405F, #C13584, #833AB4);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .instagram-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(228, 64, 95, 0.4);
+        }
+
+        .instagram-icon {
+            width: 20px;
+            height: 20px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>') no-repeat center;
+        }
+
+        /* Banner Principal */
+        .hero-banner {
+            height: 90vh;
+            background: linear-gradient(rgba(139, 111, 71, 0.4), rgba(139, 111, 71, 0.4)), 
+                        url('https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/hero-1757707349006.jpeg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 80px;
+            position: relative;
+        }
+
+        .hero-text {
+            text-align: center;
+            color: #F5F1EB;
+            background-color: rgba(139, 111, 71, 0.8);
+            padding: 50px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: normal;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Seções */
+        .section {
+            padding: 80px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #8B6F47;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: #A0845C;
+            border-radius: 2px;
+        }
+
+        /* Grid de Produtos */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(139, 111, 71, 0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(139, 111, 71, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(139, 111, 71, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .overlay-button {
+            background-color: #F5F1EB;
+            color: #8B6F47;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .overlay-button:hover {
+            background-color: #E6DDD4;
+            transform: translateY(-2px);
+        }
+
+        .overlay-cart {
+            background-color: #25D366;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .overlay-cart:hover {
+            transform: scale(1.1);
+            background-color: #128C7E;
+        }
+
+        .whatsapp-icon {
+            width: 24px;
+            height: 24px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.893 3.488"/></svg>') no-repeat center;
+        }
+
+        .product-info {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #8B6F47;
+            font-weight: 500;
+        }
+
+        .product-price {
+            font-size: 22px;
+            font-weight: bold;
+            color: #A0845C;
+        }
+
+        /* Botões CTA */
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            background-color: #8B6F47;
+            color: #F5F1EB;
+            padding: 18px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(139, 111, 71, 0.3);
+        }
+
+        .cta-button:hover {
+            background-color: #A0845C;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 111, 71, 0.4);
+        }
+
+        /* Depoimentos */
+        .testimonials {
+            background: linear-gradient(135deg, #E6DDD4, #F5F1EB);
+            border-radius: 25px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(139, 111, 71, 0.1);
+        }
+
+        .testimonial {
+            margin-bottom: 40px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        .testimonial:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-text {
+            font-size: 18px;
+            font-style: italic;
+            margin-bottom: 15px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .testimonial-text:before {
+            content: '"';
+            font-size: 48px;
+            color: #8B6F47;
+            position: absolute;
+            left: -20px;
+            top: -15px;
+            opacity: 0.7;
+        }
+
+        .testimonial-author {
+            font-weight: bold;
+            color: #A0845C;
+            font-size: 16px;
+        }
+
+        /* Página da Loja */
+        .shop-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 50px;
+            margin-top: 80px;
+        }
+
+        .sidebar {
+            background: linear-gradient(135deg, #E6DDD4, #F5F1EB);
+            padding: 30px;
+            border-radius: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 140px;
+            box-shadow: 0 10px 30px rgba(139, 111, 71, 0.1);
+        }
+
+        .filter-title {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: #8B6F47;
+            text-align: center;
+        }
+
+        .filter-group {
+            margin-bottom: 30px;
+        }
+
+        .filter-group h4 {
+            margin-bottom: 15px;
+            color: #8B6F47;
+            font-size: 16px;
+            border-bottom: 1px solid #A0845C;
+            padding-bottom: 5px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 8px 0;
+            transition: color 0.3s;
+        }
+
+        .filter-group label:hover {
+            color: #A0845C;
+        }
+
+        .filter-group input[type="checkbox"] {
+            margin-right: 12px;
+            accent-color: #8B6F47;
+        }
+
+        .shop-products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        /* Seção sobre Macramê */
+        .about-macrame {
+            background: linear-gradient(135deg, #8B6F47, #A0845C);
+            color: #F5F1EB;
+            border-radius: 25px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 60px 0;
+            box-shadow: 0 15px 35px rgba(139, 111, 71, 0.3);
+        }
+
+        .about-macrame h2 {
+            color: #F5F1EB;
+            margin-bottom: 30px;
+        }
+
+        .about-macrame p {
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .macrame-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background-color: rgba(245, 241, 235, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature h3 {
+            color: #F5F1EB;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .feature p {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: #FFFFFF;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: auto;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 24px;
+            border-bottom: 1px solid #E6DDD4;
+            position: sticky;
+            top: 0;
+            background-color: #FFFFFF;
+            z-index: 1;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            color: #8B6F47;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: #8B6F47;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            padding: 24px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            object-fit: cover;
+            max-height: 65vh;
+        }
+
+        .modal-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modal-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #A0845C;
+        }
+
+        .modal-description {
+            color: #8B6F47;
+        }
+
+        .modal-features ul {
+            padding-left: 18px;
+        }
+
+        .modal-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #25D366;
+            color: #FFFFFF;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            width: fit-content;
+        }
+
+        @media (max-width: 768px) {
+            .modal-body {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                max-height: 85vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 32px;
+            }
+            
+            .shop-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-right {
+                gap: 15px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 60px 5%;
+            }
+        }
+
+        /* Estados das páginas */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Animações */
+        .product-card {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="#" class="logo" onclick="showPage('home')">
+            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/hero-1757707428859.png" alt="CAROMÊ Logo">
+        </a>
+        <nav class="nav-right">
+            <a href="#" class="nav-item" onclick="showPage('home')">Home</a>
+            <a href="#" class="nav-item" onclick="showPage('shop')">Loja</a>
+            <a href="https://www.instagram.com/caromeartes/" target="_blank" class="instagram-btn">
+                <div class="instagram-icon"></div>
+                Instagram
+            </a>
+        </nav>
+    </header>
+
+    <!-- Página Inicial -->
+    <div id="home" class="page active">
+        <!-- Banner Principal -->
+        <section class="hero-banner">
+            <div class="hero-text">
+                <h1>Arte em nós, para o seu lar</h1>
+            </div>
+        </section>
+
+        <!-- Seção Mais Vendidos -->
+        <section class="section">
+            <h2 class="section-title">Mais Vendidos</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-08-06%20at%2010.37.30%20(1).jpeg" alt="Suporte para Plantas">
+                        <div class="product-overlay">
+                            <button class="overlay-button" onclick="openModal('suporte-pequeno')">Ver detalhes</button>
+                            <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte para Plantas Pequeno (R$ 45,00). Poderia me dar mais informações?" class="overlay-cart">
+                                <div class="whatsapp-icon"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Suporte para Plantas Pequeno</div>
+                        <div class="product-price">R$ 45,00</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-08-06%20at%2010.37.29.jpeg" alt="Porta-copos">
+                        <div class="product-overlay">
+                            <button class="overlay-button" onclick="openModal('porta-copos')">Ver detalhes</button>
+                            <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Porta-copos Artesanal (R$ 25,00). Poderia me dar mais informações?" class="overlay-cart">
+                                <div class="whatsapp-icon"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Porta-copos Artesanal</div>
+                        <div class="product-price">R$ 25,00</div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-08-06%20at%2010.37.31.jpeg" alt="Suporte com Vaso">
+                        <div class="product-overlay">
+                            <button class="overlay-button" onclick="openModal('suporte-vaso')">Ver detalhes</button>
+                            <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte com Vaso Incluído (R$ 65,00). Poderia me dar mais informações?" class="overlay-cart">
+                                <div class="whatsapp-icon"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Suporte com Vaso Incluído</div>
+                        <div class="product-price">R$ 65,00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões CTA -->
+            <div class="cta-buttons">
+                <a href="#" class="cta-button" onclick="showPage('shop')">Ver todos os produtos</a>
+                <a href="#" class="cta-button">Conheça nossa história</a>
+            </div>
+        </section>
+
+        <!-- Seção sobre Macramê -->
+        <section class="section">
+            <div class="about-macrame">
+                <h2 class="section-title">O que é Macramê?</h2>
+                <p>Macramê é uma arte têxtil ancestral que utiliza apenas nós para criar peças decorativas únicas e funcionais. Com origem árabe, essa técnica milenar conquistou o mundo pela sua beleza natural e versatilidade.</p>
+                
+                <div class="macrame-features">
+                    <div class="feature">
+                        <h3>🌿 Arte Sustentável</h3>
+                        <p>Feito com fibras naturais, o macramê é uma escolha consciente para decorar seu lar de forma sustentável.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>✨ Peças Únicas</h3>
+                        <p>Cada produto é cuidadosamente feito à mão, garantindo que você tenha uma peça exclusiva em sua casa.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🏡 Versatilidade</h3>
+                        <p>Do minimalista ao boho chic, o macramê se adapta a qualquer estilo de decoração com elegância.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Depoimentos -->
+        <section class="section">
+            <div class="testimonials">
+                <h2 class="section-title">O que nossos clientes dizem</h2>
+                <div class="testimonial">
+                    <div class="testimonial-text">Produtos lindos e de excelente qualidade! Transformaram completamente minha decoração.</div>
+                    <div class="testimonial-author">- Maria Silva</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">Atendimento excepcional e entrega rápida. Super recomendo!</div>
+                    <div class="testimonial-author">- João Santos</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">Cada peça é única e feita com muito carinho. Adoro!</div>
+                    <div class="testimonial-author">- Ana Costa</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Página da Loja -->
+    <div id="shop" class="page">
+        <div class="section">
+            <div class="shop-container">
+                <!-- Sidebar de Filtros -->
+                <aside class="sidebar">
+                    <h3 class="filter-title">Filtrar por</h3>
+                    
+                    <div class="filter-group">
+                        <h4>Categorias</h4>
+                        <label><input type="checkbox"> Painéis</label>
+                        <label><input type="checkbox"> Suportes</label>
+                        <label><input type="checkbox"> Prateleiras</label>
+                        <label><input type="checkbox"> Chaveiros</label>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>Material</h4>
+                        <label><input type="checkbox"> Algodão</label>
+                        <label><input type="checkbox"> Juta</label>
+                        <label><input type="checkbox"> Corda</label>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <h4>Tipo</h4>
+                        <label><input type="checkbox"> Suportes para plantas</label>
+                        <label><input type="checkbox"> Prateleiras</label>
+                        <label><input type="checkbox"> Chaveiros</label>
+                    </div>
+                </aside>
+
+                <!-- Grid de Produtos -->
+                <main class="shop-products">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/039956d0-5ff1-4b8d-9748-cf7c24715d0b.jpeg" alt="Painel de Parede">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('painel-parede')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Painel de Parede Grande (R$ 120,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Painel de Parede Grande</div>
+                            <div class="product-price">R$ 120,00</div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/5192af81-04ec-406f-b82b-35863a6ab8e3.jpeg" alt="Suporte Médio">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('suporte-medio')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte para Plantas Médio (R$ 55,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Suporte para Plantas Médio</div>
+                            <div class="product-price">R$ 55,00</div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/65570cac-9652-439f-81b5-adbdef48219e.jpeg" alt="Prateleira Suspensa">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('prateleira')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse na Prateleira Suspensa (R$ 85,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Prateleira Suspensa</div>
+                            <div class="product-price">R$ 85,00</div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/a8c74ba1-3f5a-477a-b312-ce0c471bea67.jpeg" alt="Chaveiro Folha">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('chaveiro')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Chaveiro Folha (R$ 15,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Chaveiro Folha</div>
+                            <div class="product-price">R$ 15,00</div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/ffe2fed1-a91b-4cec-acb0-e9859d19c68d.jpeg" alt="Porta-copos Kit">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('porta-copos-kit')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Porta-copos Kit 4 unidades (R$ 35,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Porta-copos Kit 4 unidades</div>
+                            <div class="product-price">R$ 35,00</div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-09-25%20at%2020.52.03.jpeg" alt="Suporte Duplo">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('suporte-duplo')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte Duplo para Plantas (R$ 95,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Suporte Duplo para Plantas</div>
+                            <div class="product-price">R$ 95,00</div>
+                        </div>
+                    </div>
+
+                    <!-- Produto Personalizado -->
+                    <div class="product-card" style="border: 2px dashed #8B6F47;">
+                        <div class="product-image" style="background: linear-gradient(135deg, #F5F1EB, #E6DDD4); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="font-size: 48px; color: #8B6F47; margin-bottom: 10px;">✨</div>
+                            <div style="font-size: 18px; color: #8B6F47; text-align: center; padding: 0 20px;">Crie sua peça única!</div>
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('personalizado')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Gostaria de encomendar uma peça personalizada de macramê. Podemos conversar sobre as possibilidades?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Peça Personalizada</div>
+                            <div class="product-price">Sob consulta</div>
+                        </div>
+                    </div> 20px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Porta-copos Kit 4 unidades</div>
+                            <div class="product-price">R$ 35,00</div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Detalhes -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" class="modal-image" src="" alt="">
+                <div class="modal-info">
+                    <div id="modalPrice" class="modal-price"></div>
+                    <div id="modalDescription" class="modal-description"></div>
+                    <div class="modal-features">
+                        <h4>Características:</h4>
+                        <ul id="modalFeatures"></ul>
+                    </div>
+                    <a id="modalWhatsapp" class="modal-whatsapp" href="">
+                        <div class="whatsapp-icon"></div>
+                        Comprar pelo WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Ocultar todas as páginas
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Mostrar a página selecionada
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Adicionar efeito de scroll suave para o header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(245, 241, 235, 0.98)';
+            } else {
+                header.style.backgroundColor = 'rgba(245, 241, 235, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>
