@@ -83,6 +83,73 @@
             }
         };
 
+        async function loadProductsCsv() {
+            const res = await fetch('products.csv?ts=' + Date.now());
+            if (!res.ok) return;
+            const text = await res.text();
+            const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l);
+            if (!lines.length) return;
+            const header = lines.shift();
+            const cols = header.split(';').map(h => h.trim().toLowerCase());
+            const idx = {
+                id: cols.indexOf('id'),
+                title: cols.indexOf('title'),
+                price: cols.indexOf('price'),
+                image: cols.indexOf('image'),
+                description: cols.indexOf('description'),
+                features: cols.indexOf('features'),
+                whatsapp: cols.indexOf('whatsapp')
+            };
+            const map = {};
+            for (const line of lines) {
+                const parts = line.split(';');
+                const get = (k) => (parts[idx[k]] || '').trim();
+                const id = get('id');
+                if (!id) continue;
+                const features = get('features') ? get('features').split('|').map(s => s.trim()).filter(Boolean) : [];
+                map[id] = {
+                    title: get('title'),
+                    price: get('price'),
+                    image: get('image'),
+                    description: get('description'),
+                    features,
+                    whatsapp: get('whatsapp')
+                };
+            }
+            for (const key of Object.keys(products)) delete products[key];
+            for (const key of Object.keys(map)) products[key] = map[key];
+            updateProductCardsFromData();
+        }
+
+        function updateProductCardsFromData() {
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                const btn = card.querySelector('.overlay-button');
+                if (!btn) return;
+                const onclick = btn.getAttribute('onclick') || '';
+                const m = onclick.match(/openModal\('([^']+)'\)/);
+                if (!m) return;
+                const productId = m[1];
+                const p = products[productId];
+                if (!p) return;
+                const img = card.querySelector('.product-image img');
+                if (img) {
+                    img.src = p.image;
+                    img.alt = p.title || img.alt;
+                }
+                const nameEl = card.querySelector('.product-name');
+                if (nameEl && p.title) nameEl.textContent = p.title;
+                const priceEl = card.querySelector('.product-price');
+                if (priceEl && p.price) priceEl.textContent = p.price;
+                const wa = card.querySelector('.overlay-cart');
+                if (wa && p.whatsapp) wa.setAttribute('href', p.whatsapp);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadProductsCsv().catch(console.error);
+        });
+
         function openModal(productId) {
             const product = products[productId];
             if (!product) return;
