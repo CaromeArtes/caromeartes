@@ -258,8 +258,12 @@
 
           const card = document.createElement('div');
           card.className = 'card';
+          const firstImg = (p.images && p.images[0]) || p.image;
           card.innerHTML = `
-            <img src="${(p.images && p.images[0]) || p.image}" alt="${p.title}">
+            <img src="${firstImg}"
+                 srcset="${firstImg} 400w, ${firstImg} 800w, ${firstImg} 1200w"
+                 sizes="(min-width: 1100px) 25vw, (min-width: 700px) 33vw, 90vw"
+                 loading="lazy" decoding="async" alt="${p.title}">
             <div class="info">
               <div>
                 <div>${p.title}</div>
@@ -329,6 +333,8 @@
       const src = carouselState.images[i];
       const img = document.getElementById('mimg');
       img.src = src;
+      img.srcset = `${src} 800w, ${src} 1600w`;
+      img.sizes = '(max-width: 800px) 100vw, 50vw';
       img.alt = title || '';
       highlightDot();
     }
