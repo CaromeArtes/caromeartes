@@ -48,6 +48,8 @@
     .modal .title { color:#8B6F47; font-size:24px; margin-bottom:6px; }
     .modal .mprice { color:#8B6F47; font-weight:bold; margin-bottom:10px; }
     .modal .features { margin: 10px 0 16px; padding-left: 18px; }
+    /* Respeitar quebras de linha no campo de descrição */
+    .modal #mdesc { white-space: pre-line; }
     .close { position:absolute; top:12px; right:16px; background: rgba(0,0,0,.6); border:none; font-size:22px; color:#fff; cursor:pointer; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2101; }
     @media (max-width: 800px){ 
       .modal .box { grid-template-columns: 1fr; max-height: 90vh; overflow:auto; }
@@ -290,7 +292,8 @@
       setupCarousel(p.images && p.images.length ? p.images : (p.image ? [p.image] : []), p.title);
       document.getElementById('mtitle').textContent = p.title;
       document.getElementById('mprice').textContent = p.price;
-      document.getElementById('mdesc').textContent = p.description || '';
+      // Permite quebrar linhas usando "\n" no CSV
+      document.getElementById('mdesc').textContent = (p.description || '').replace(/\\n/g, '\n');
       const ul = document.getElementById('mfeatures');
       ul.innerHTML = '';
       p.features.forEach(f => { const li = document.createElement('li'); li.textContent = f; ul.appendChild(li); });
