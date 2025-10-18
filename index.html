@@ -25,7 +25,7 @@
     .hero .hero-box h1 { font-weight:normal; font-size: 40px; }
 
     /* Sections */
-    .section { padding: 70px 5%; max-width: 1200px; margin: 0 auto; }
+    .section { padding: 70px 5%; max-width: 1200px; margin: 0 auto; scroll-margin-top: 160px; }
     .section-title { font-size: 36px; text-align:center; margin-bottom: 12px; color:#8B6F47; position:relative; }
     .section-sub { text-align:center; color:#6F5A3B; margin-bottom: 34px; }
     .section-title::after { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:60px; height:3px; background:#A0845C; border-radius:2px; }
@@ -43,13 +43,25 @@
     .modal { position:fixed; inset:0; background: rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; z-index:2000; }
     .modal.active { display:flex; }
     .modal .box { background:#fff; color:#6F5A3B; max-width: 900px; width: 95%; border-radius:16px; overflow:hidden; display:grid; grid-template-columns: 1fr 1fr; }
-    .modal .img { width:100%; height:100%; object-fit:cover; }
+    .modal .img { width:100%; height:100%; object-fit:cover; display:block; }
     .modal .content { padding:22px; }
     .modal .title { color:#8B6F47; font-size:24px; margin-bottom:6px; }
     .modal .mprice { color:#8B6F47; font-weight:bold; margin-bottom:10px; }
     .modal .features { margin: 10px 0 16px; padding-left: 18px; }
-    .close { position:absolute; top:12px; right:16px; background:transparent; border:none; font-size:28px; color:#fff; cursor:pointer; }
-    @media (max-width: 800px){ .modal .box { grid-template-columns: 1fr; } }
+    .close { position:absolute; top:12px; right:16px; background: rgba(0,0,0,.6); border:none; font-size:22px; color:#fff; cursor:pointer; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2101; }
+    @media (max-width: 800px){ 
+      .modal .box { grid-template-columns: 1fr; max-height: 90vh; overflow:auto; }
+    }
+
+    /* Carousel */
+    .carousel { position: relative; background:#000; }
+    .carousel .cnav { position:absolute; top:50%; transform: translateY(-50%); background: rgba(0,0,0,.4); color:#fff; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:24px; display:flex; align-items:center; justify-content:center; }
+    .carousel .cnav:hover { background: rgba(0,0,0,.6); }
+    .carousel .prev { left:10px; }
+    .carousel .next { right:10px; }
+    .carousel .dots { position:absolute; bottom:10px; left:0; right:0; display:flex; gap:8px; justify-content:center; align-items:center; }
+    .carousel .dot { width:8px; height:8px; border-radius:50%; background: rgba(255,255,255,.6); cursor:pointer; border:none; padding:0; }
+    .carousel .dot.active { background:#fff; }
 
     /* Quem Somos */
     .about-history { background:#F7F3EE; border-radius:16px; }
@@ -191,7 +203,12 @@
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <button class="close" onclick="closeModal()" aria-label="Fechar">×</button>
     <div class="box">
-      <img id="mimg" class="img" alt="">
+      <div class="carousel" aria-label="Galeria de imagens do produto">
+        <button id="cprev" class="cnav prev" aria-label="Imagem anterior">‹</button>
+        <img id="mimg" class="img" alt="">
+        <button id="cnext" class="cnav next" aria-label="Próxima imagem">›</button>
+        <div id="mdots" class="dots" aria-hidden="false"></div>
+      </div>
       <div class="content">
         <div id="mtitle" class="title"></div>
         <div id="mprice" class="mprice"></div>
@@ -203,6 +220,9 @@
   </div>
 
   <script>
+    // Estado simples do carrossel
+    let carouselState = { images: [], index: 0 };
+
     async function loadProducts() {
       try {
         const res = await fetch('products.csv');
@@ -225,10 +245,21 @@
             whatsapp: cols[idx('whatsapp')]
           };
 
+          // Suporte a múltiplas imagens:
+          // 1) Se existir coluna "images", usa ela (separador |)
+          // 2) Senão, se "image" tiver múltiplas URLs separadas por |, usa elas
+          // 3) Caso contrário, usa apenas a imagem principal
+          const imagesColIndex = idx('images');
+          const imagesFromCol = imagesColIndex >= 0 ? (cols[imagesColIndex] || '') : '';
+          const fromImages = imagesFromCol.split('|').map(s => s.trim()).filter(Boolean);
+          const fromImage = (p.image || '').split('|').map(s => s.trim()).filter(Boolean);
+          p.images = fromImages.length ? fromImages : (fromImage.length ? fromImage : []);
+          if (!p.images.length && p.image) p.images = [p.image];
+
           const card = document.createElement('div');
           card.className = 'card';
           card.innerHTML = `
-            <img src="${p.image}" alt="${p.title}">
+            <img src="${(p.images && p.images[0]) || p.image}" alt="${p.title}">
             <div class="info">
               <div>
                 <div>${p.title}</div>
@@ -251,8 +282,8 @@
     }
 
     function openModal(p) {
-      document.getElementById('mimg').src = p.image;
-      document.getElementById('mimg').alt = p.title;
+      // Configura carrossel
+      setupCarousel(p.images && p.images.length ? p.images : (p.image ? [p.image] : []), p.title);
       document.getElementById('mtitle').textContent = p.title;
       document.getElementById('mprice').textContent = p.price;
       document.getElementById('mdesc').textContent = p.description || '';
@@ -274,6 +305,73 @@
 
     document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') closeModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    // Funções do carrossel
+    function setupCarousel(images, title){
+      carouselState.images = images || [];
+      carouselState.index = 0;
+      showCarouselImage(0, title);
+      buildDots();
+      updateNavVisibility();
+    }
+
+    function showCarouselImage(i, title){
+      if (!carouselState.images.length) {
+        document.getElementById('mimg').src = '';
+        document.getElementById('mimg').alt = '';
+        document.getElementById('mdots').innerHTML = '';
+        return;
+      }
+      const max = carouselState.images.length;
+      if (i < 0) i = max - 1;
+      if (i >= max) i = 0;
+      carouselState.index = i;
+      const src = carouselState.images[i];
+      const img = document.getElementById('mimg');
+      img.src = src;
+      img.alt = title || '';
+      highlightDot();
+    }
+
+    function buildDots(){
+      const dots = document.getElementById('mdots');
+      dots.innerHTML = '';
+      const total = carouselState.images.length;
+      if (total <= 1) { dots.style.display = 'none'; return; }
+      dots.style.display = 'flex';
+      for (let i=0;i<total;i++){
+        const b = document.createElement('button');
+        b.className = 'dot' + (i===carouselState.index ? ' active' : '');
+        b.type = 'button';
+        b.setAttribute('aria-label', `Ir para imagem ${i+1}`);
+        b.addEventListener('click', () => showCarouselImage(i));
+        dots.appendChild(b);
+      }
+    }
+
+    function highlightDot(){
+      const dots = document.querySelectorAll('#mdots .dot');
+      dots.forEach((d, idx) => {
+        if (idx === carouselState.index) d.classList.add('active');
+        else d.classList.remove('active');
+      });
+    }
+
+    function updateNavVisibility(){
+      const hasMultiple = carouselState.images.length > 1;
+      document.getElementById('cprev').style.display = hasMultiple ? 'flex' : 'none';
+      document.getElementById('cnext').style.display = hasMultiple ? 'flex' : 'none';
+    }
+
+    // Controles de navegação
+    document.getElementById('cprev').addEventListener('click', (e) => {
+      e.stopPropagation();
+      showCarouselImage(carouselState.index - 1);
+    });
+    document.getElementById('cnext').addEventListener('click', (e) => {
+      e.stopPropagation();
+      showCarouselImage(carouselState.index + 1);
+    });
 
     loadProducts();
   </script>
