@@ -1,99 +1,506 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CAROMÊ - Arte em Macramê</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: Georgia, serif; background: #F2E5D5; color: #803D16; line-height: 1.6; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, serif;
+      background: #F2E5D5;
+      color: #803D16;
+      line-height: 1.6;
+    }
 
     /* Header */
-    .header { position: fixed; top: 0; width: 100%; background: rgba(245,241,235,.96); backdrop-filter: blur(10px); padding: 20px 5% 16px; display: flex; flex-direction: column; align-items: center; z-index: 1000; box-shadow: 0 2px 20px rgba(139,111,71,.10); }
-    .logo { display:flex; align-items:center; text-decoration:none; transition: transform .3s; }
-    .logo:hover { transform: scale(1.03); }
-    .logo img { height: 110px; width: auto; }
-    .nav-links { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; justify-content:center; align-items:center; }
-    .nav-links a { color:#803D16; text-decoration:none; font-size:16px; padding:4px 8px; border-radius:10px; transition: background-color .2s; text-transform: lowercase; }
-    .nav-links a:hover { background:#F2E5D5; }
-    .nav-links .divider { color:#A0845C; opacity:.9; user-select:none; }
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(245, 241, 235, .96);
+      backdrop-filter: blur(10px);
+      padding: 20px 5% 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(139, 111, 71, .10);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: transform .3s;
+    }
+
+    .logo:hover {
+      transform: scale(1.03);
+    }
+
+    .logo img {
+      height: 110px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: #803D16;
+      text-decoration: none;
+      font-size: 16px;
+      padding: 4px 8px;
+      border-radius: 10px;
+      transition: background-color .2s;
+      text-transform: lowercase;
+    }
+
+    .nav-links a:hover {
+      background: #F2E5D5;
+    }
+
+    .nav-links .divider {
+      color: #A0845C;
+      opacity: .9;
+      user-select: none;
+    }
 
     /* Hero */
-    .hero { margin-top: 160px; min-height: 60vh; display:flex; align-items:center; justify-content:center; background: linear-gradient(rgba(139,111,71,.35), rgba(139,111,71,.35)), url('https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/PainelConchas.jpeg') center/cover; }
-    .hero .hero-box { background: rgba(139,111,71,.82); color:#F2E5D5; padding: 40px 50px; border-radius: 18px; text-align:center; box-shadow: 0 18px 40px rgba(0,0,0,.2); }
-    .hero .hero-box h1 { font-weight:normal; font-size: 40px; }
+    .hero {
+      margin-top: 160px;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(rgba(139, 111, 71, .35), rgba(139, 111, 71, .35)), url('https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/PainelConchas.jpeg') center/cover;
+    }
+
+    .hero .hero-box {
+      background: rgba(139, 111, 71, .82);
+      color: #F2E5D5;
+      padding: 40px 50px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .2);
+    }
+
+    .hero .hero-box h1 {
+      font-weight: normal;
+      font-size: 40px;
+    }
 
     /* Sections */
-    .section { padding: 70px 5%; max-width: 1200px; margin: 0 auto; scroll-margin-top: 160px; }
-    .section-title { font-size: 36px; text-align:center; margin-bottom: 12px; color:#803D16; position:relative; }
-    .section-sub { text-align:center; color:#713519; margin-bottom: 34px; }
-    .section-title::after { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:60px; height:3px; background:#A0845C; border-radius:2px; }
+    .section {
+      padding: 70px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+      scroll-margin-top: 160px;
+    }
+
+    .section-title {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 12px;
+      color: #803D16;
+      position: relative;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #713519;
+      margin-bottom: 34px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: #A0845C;
+      border-radius: 2px;
+    }
 
     /* Produtos */
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 28px; }
-    .card { background:#F7F7F7; border-radius:16px; overflow:hidden; box-shadow: 0 8px 22px rgba(139,111,71,.12); transition: transform .25s, box-shadow .25s; }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 16px 34px rgba(139,111,71,.18); }
-    .card img { width:100%; height:230px; object-fit:cover; display:block; }
-    .card .info { padding:16px 18px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
-    .price { font-weight:bold; color:#803D16; }
-    .btn { background:#803D16; color:#F2E5D5; text-decoration:none; padding:10px 14px; border-radius:10px; display:inline-block; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: #F7F7F7;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 22px rgba(139, 111, 71, .12);
+      transition: transform .25s, box-shadow .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 34px rgba(139, 111, 71, .18);
+    }
+
+    .card img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s;
+    }
+
+    .card-image-container {
+      position: relative;
+      height: 230px;
+      overflow: hidden;
+    }
+
+    .card-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 2;
+    }
+
+    .card:hover .card-nav {
+      opacity: 1;
+    }
+
+    .card-nav:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .card-prev {
+      left: 10px;
+    }
+
+    .card-next {
+      right: 10px;
+    }
+
+    .card .info {
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: #803D16;
+    }
+
+    .btn {
+      background: #803D16;
+      color: #F2E5D5;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      display: inline-block;
+    }
 
     /* Modal */
-    .modal { position:fixed; inset:0; background: rgba(0,0,0,.5); display:none; align-items:center; justify-content:center; z-index:2000; }
-    .modal.active { display:flex; }
-    .modal .box { background:#F7F7F7; color:#713519; max-width: 900px; width: 95%; border-radius:16px; overflow:hidden; display:grid; grid-template-columns: 1fr 1fr; }
-    .modal .img { width:100%; height:100%; object-fit:cover; display:block; }
-    .modal .content { padding:22px; }
-    .modal .title { color:#803D16; font-size:24px; margin-bottom:6px; }
-    .modal .mprice { color:#803D16; font-weight:bold; margin-bottom:10px; }
-    .modal .features { margin: 10px 0 16px; padding-left: 18px; }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal .box {
+      background: #F7F7F7;
+      color: #713519;
+      max-width: 900px;
+      width: 95%;
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .modal .img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #000;
+    }
+
+    .modal .content {
+      padding: 22px;
+    }
+
+    .modal .title {
+      color: #803D16;
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .modal .mprice {
+      color: #803D16;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .modal .features {
+      margin: 10px 0 16px;
+      padding-left: 18px;
+    }
+
     /* Respeitar quebras de linha no campo de descrição */
-    .modal #mdesc { white-space: pre-line; }
-    .close { position:absolute; top:12px; right:16px; background: rgba(0,0,0,.6); border:none; font-size:22px; color:#F7F7F7; cursor:pointer; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:2101; }
-    @media (max-width: 800px){ 
-      .modal .box { grid-template-columns: 1fr; max-height: 90vh; overflow:auto; }
+    .modal #mdesc {
+      white-space: pre-line;
+    }
+
+    .close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: rgba(0, 0, 0, .6);
+      border: none;
+      font-size: 22px;
+      color: #F7F7F7;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2101;
+    }
+
+    @media (max-width: 800px) {
+      .modal .box {
+        grid-template-columns: 1fr;
+        max-height: 90vh;
+        overflow: auto;
+      }
     }
 
     /* Carousel */
-    .carousel { position: relative; background:#000; }
-    .carousel .cnav { position:absolute; top:50%; transform: translateY(-50%); background: rgba(0,0,0,.4); color:#F7F7F7; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; font-size:24px; display:flex; align-items:center; justify-content:center; }
-    .carousel .cnav:hover { background: rgba(0,0,0,.6); }
-    .carousel .prev { left:10px; }
-    .carousel .next { right:10px; }
-    .carousel .dots { position:absolute; bottom:10px; left:0; right:0; display:flex; gap:8px; justify-content:center; align-items:center; }
-    .carousel .dot { width:8px; height:8px; border-radius:50%; background: rgba(255,255,255,.6); cursor:pointer; border:none; padding:0; }
-    .carousel .dot.active { background:#F7F7F7; }
+    .carousel {
+      position: relative;
+      background: #000;
+    }
+
+    .carousel .cnav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, .4);
+      color: #F7F7F7;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel .cnav:hover {
+      background: rgba(0, 0, 0, .6);
+    }
+
+    .carousel .prev {
+      left: 10px;
+    }
+
+    .carousel .next {
+      right: 10px;
+    }
+
+    .carousel .dots {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .6);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    .carousel .dot.active {
+      background: #F7F7F7;
+    }
 
     /* Quem Somos */
-    .about-history { background:#F7F3EE; border-radius:16px; }
-    .about-intro { max-width:900px; margin: 16px auto 30px; text-align:center; color:#713519; font-size:18px; }
-    .about-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:24px; }
-    .about-card { background:#F7F7F7; border-radius:14px; padding:28px 22px; text-align:center; box-shadow: 0 8px 22px rgba(139,111,71,.12); }
-    .about-card h3 { color:#803D16; margin:12px 0 8px; font-size:20px; }
-    .about-card p { color:#713519; font-size:16px; }
-    .about-icon { width:64px; height:64px; margin:0 auto 10px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#EEF2E8; color:#803D16; font-size:28px; }
-    @media (max-width: 900px){ .about-grid { grid-template-columns:1fr; } }
+    .about-history {
+      background: #F7F3EE;
+      border-radius: 16px;
+    }
+
+    .about-intro {
+      max-width: 900px;
+      margin: 16px auto 30px;
+      text-align: center;
+      color: #713519;
+      font-size: 18px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .about-card {
+      background: #F7F7F7;
+      border-radius: 14px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 8px 22px rgba(139, 111, 71, .12);
+    }
+
+    .about-card h3 {
+      color: #803D16;
+      margin: 12px 0 8px;
+      font-size: 20px;
+    }
+
+    .about-card p {
+      color: #713519;
+      font-size: 16px;
+    }
+
+    .about-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #EEF2E8;
+      color: #803D16;
+      font-size: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
     /* FAQ */
-    .faq { max-width: 900px; margin: 0 auto; }
-    .faq-item { background:#F7F7F7; border-radius:12px; padding:14px 18px; box-shadow:0 6px 18px rgba(139,111,71,.12); margin-bottom:14px; }
-    .faq-item summary { cursor:pointer; font-weight:600; color:#803D16; list-style:none; outline:none; }
-    .faq-item summary::-webkit-details-marker { display:none; }
-    .faq-item summary::after { content:'▾'; float:right; transition: transform .2s; }
-    .faq-item[open] summary::after { transform: rotate(180deg); }
-    .faq-a { color:#713519; margin-top:8px; }
-    .faq-a ul { margin:8px 0 0 18px; }
+    .faq {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: #F7F7F7;
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: 0 6px 18px rgba(139, 111, 71, .12);
+      margin-bottom: 14px;
+    }
+
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: #803D16;
+      list-style: none;
+      outline: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: '▾';
+      float: right;
+      transition: transform .2s;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-a {
+      color: #713519;
+      margin-top: 8px;
+    }
+
+    .faq-a ul {
+      margin: 8px 0 0 18px;
+    }
 
     /* Footer */
-    footer .cta { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    .cta .btn.secondary { background:#A0845C; }
+    footer .cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta .btn.secondary {
+      background: #A0845C;
+    }
   </style>
 </head>
+
 <body>
   <header class="header">
     <a class="logo" href="#">
-      <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/Logo2.png" alt="CAROMÊ Logo">
+      <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/Logo2.png"
+        alt="CAROMÊ Logo">
     </a>
     <nav class="nav-links">
       <a href="#produtos">produtos</a>
@@ -107,7 +514,9 @@
   </header>
 
   <section class="hero">
-    <div class="hero-box"><h1>Onde o fio se transforma em arte</h1></div>
+    <div class="hero-box">
+      <h1>Onde o fio se transforma em arte</h1>
+    </div>
   </section>
 
   <section id="produtos" class="section">
@@ -118,17 +527,20 @@
 
   <section id="sobre" class="section about-history">
     <h2 class="section-title">Nossa História</h2>
-    <p class="about-intro">Cada peça é criada com amor e dedicação, utilizando técnicas tradicionais de macramê que passaram de geração em geração. Nosso compromisso é trazer beleza natural e sustentável para sua casa.</p>
+    <p class="about-intro">Cada peça é criada com amor e dedicação, utilizando técnicas tradicionais de macramê que
+      passaram de geração em geração. Nosso compromisso é trazer beleza natural e sustentável para sua casa.</p>
     <div class="about-grid">
       <article class="about-card">
         <div class="about-icon">❤</div>
         <h3>Feito com Amor</h3>
-        <p>Cada nó é cuidadosamente trabalhado, garantindo qualidade e durabilidade em todas as nossas peças artesanais.</p>
+        <p>Cada nó é cuidadosamente trabalhado, garantindo qualidade e durabilidade em todas as nossas peças artesanais.
+        </p>
       </article>
       <article class="about-card">
         <div class="about-icon">🍃</div>
         <h3>Sustentável</h3>
-        <p>Utilizamos apenas materiais naturais e ecologicamente corretos, respeitando o meio ambiente em todo processo.</p>
+        <p>Utilizamos apenas materiais naturais e ecologicamente corretos, respeitando o meio ambiente em todo processo.
+        </p>
       </article>
       <article class="about-card">
         <div class="about-icon">🧶</div>
@@ -140,33 +552,37 @@
 
   <section id="faq" class="section">
     <h2 class="section-title">Perguntas Frequentes</h2>
-    
+
     <div class="faq">
       <details class="faq-item" open>
         <summary>Como faço para comprar uma peça?</summary>
         <div class="faq-a">
-          Você pode escolher os modelos disponíveis em nossa loja online ou solicitar uma peça personalizada entrando em contato conosco.
+          Você pode escolher os modelos disponíveis em nossa loja online ou solicitar uma peça personalizada entrando em
+          contato conosco.
         </div>
       </details>
 
       <details class="faq-item">
         <summary>Vocês fazem peças sob medida?</summary>
         <div class="faq-a">
-          Sim! Trabalhamos com personalização de cores, tamanhos e modelos. Basta nos enviar sua ideia e faremos um orçamento exclusivo.
+          Sim! Trabalhamos com personalização de cores, tamanhos e modelos. Basta nos enviar sua ideia e faremos um
+          orçamento exclusivo.
         </div>
       </details>
 
       <details class="faq-item">
         <summary>Quanto tempo leva para produzir uma peça?</summary>
         <div class="faq-a">
-          O prazo varia conforme o tamanho e a complexidade da peça. Em média, peças pequenas ficam prontas em até 7 dias úteis, já peças maiores podem levar de 10 a 20 dias úteis.
+          O prazo varia conforme o tamanho e a complexidade da peça. Em média, peças pequenas ficam prontas em até 7
+          dias úteis, já peças maiores podem levar de 10 a 20 dias úteis.
         </div>
       </details>
 
       <details class="faq-item">
         <summary>Qual é o prazo de entrega?</summary>
         <div class="faq-a">
-          O prazo depende da sua região e será informado na finalização da compra, além do tempo de produção da peça.<br><br>
+          O prazo depende da sua região e será informado na finalização da compra, além do tempo de produção da
+          peça.<br><br>
           Para pedidos realizados em Curitiba e região, podemos enviar via Uber Flash ou combinar a retirada.
         </div>
       </details>
@@ -185,7 +601,11 @@
       <details class="faq-item">
         <summary>Por que escolher a Caromê?</summary>
         <div class="faq-a">
-          Na Caromê, cada peça é feita à mão, com cuidado em cada detalhe, trazendo exclusividade e autenticidade para sua decoração. Diferente das produções em massa, nossos macramês são 100% artesanais, impermeabilizados para maior durabilidade e acompanhados de cavilhas de madeira envernizadas, que garantem acabamento refinado. Além disso, cada criação carrega o valor do feito à mão, tornando seu ambiente único, acolhedor e cheio de personalidade.
+          Na Caromê, cada peça é feita à mão, com cuidado em cada detalhe, trazendo exclusividade e autenticidade para
+          sua decoração. Diferente das produções em massa, nossos macramês são 100% artesanais, impermeabilizados para
+          maior durabilidade e acompanhados de cavilhas de madeira envernizadas, que garantem acabamento refinado. Além
+          disso, cada criação carrega o valor do feito à mão, tornando seu ambiente único, acolhedor e cheio de
+          personalidade.
         </div>
       </details>
     </div>
@@ -197,7 +617,8 @@
     <div class="cta">
       <a class="btn" href="https://wa.me/5541995358400" target="_blank" rel="noopener">WhatsApp</a>
       <a class="btn secondary" href="mailto:contato@caromeartes.com.br">E-mail</a>
-      <a class="btn secondary" href="https://www.instagram.com/caromeartes/" target="_blank" rel="noopener">Instagram</a>
+      <a class="btn secondary" href="https://www.instagram.com/caromeartes/" target="_blank"
+        rel="noopener">Instagram</a>
     </div>
   </footer>
 
@@ -221,82 +642,183 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { supabase } from './src/supabaseClient.js'
+
     // Estado simples do carrossel
-    let carouselState = { images: [], index: 0 };
+    let carouselState = { images: [], index: 0, intervalId: null, autoplayTime: 2000 };
 
     async function loadProducts() {
       try {
-        const res = await fetch('products.csv');
-        const text = await res.text();
-        const lines = text.split(/\r?\n/).filter(Boolean);
-        if (!lines.length) return;
-        const headers = lines.shift().split(';').map(h => h.trim().toLowerCase());
-        const idx = (k) => headers.indexOf(k);
+        // Tenta buscar do Supabase primeiro
+        let products = [];
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('position', { ascending: true }); // Sort by position
+
+        if (!error && data && data.length > 0) {
+          products = data;
+        } else {
+          // If error (e.g. position column missing), try without sort
+          if (error) {
+            console.warn('Erro ao ordenar por position, tentando sem ordem:', error);
+            const { data: data2 } = await supabase.from('products').select('*');
+            if (data2) products = data2;
+          }
+        }
+
+        // Fallback CSV if still empty
+        if (products.length === 0) {
+          console.log('Buscando do CSV (fallback)...');
+          const res = await fetch('products.csv');
+          if (res.ok) {
+            const text = await res.text();
+            const lines = text.split(/\r?\n/).filter(Boolean);
+            if (lines.length > 0) {
+              const headers = lines.shift().split(';').map(h => h.trim().toLowerCase());
+              const idx = (k) => headers.indexOf(k);
+
+              products = lines.map(line => {
+                const cols = line.split(';');
+                const p = {
+                  id: cols[idx('id')],
+                  title: cols[idx('title')],
+                  price: cols[idx('price')],
+                  image: cols[idx('image')],
+                  description: cols[idx('description')],
+                  features: (cols[idx('features')] || '').split('|').filter(Boolean),
+                  whatsapp: cols[idx('whatsapp')]
+                };
+                // Lógica de imagens do CSV
+                const imagesColIndex = idx('images');
+                const imagesFromCol = imagesColIndex >= 0 ? (cols[imagesColIndex] || '') : '';
+                const fromImages = imagesFromCol.split('|').map(s => s.trim()).filter(Boolean);
+                const fromImage = (p.image || '').split('|').map(s => s.trim()).filter(Boolean);
+                p.images = fromImages.length ? fromImages : (fromImage.length ? fromImage : []);
+                if (!p.images.length && p.image) p.images = [p.image];
+                return p;
+              });
+            }
+          }
+        }
+
         const grid = document.getElementById('productsGrid');
+        grid.innerHTML = ''; // Limpa grid
 
-        for (const line of lines) {
-          const cols = line.split(';');
-          const p = {
-            id: cols[idx('id')],
-            title: cols[idx('title')],
-            price: cols[idx('price')],
-            image: cols[idx('image')],
-            description: cols[idx('description')],
-            features: (cols[idx('features')] || '').split('|').filter(Boolean),
-            whatsapp: cols[idx('whatsapp')]
-          };
-
-          // Suporte a múltiplas imagens:
-          // 1) Se existir coluna "images", usa ela (separador |)
-          // 2) Senão, se "image" tiver múltiplas URLs separadas por |, usa elas
-          // 3) Caso contrário, usa apenas a imagem principal
-          const imagesColIndex = idx('images');
-          const imagesFromCol = imagesColIndex >= 0 ? (cols[imagesColIndex] || '') : '';
-          const fromImages = imagesFromCol.split('|').map(s => s.trim()).filter(Boolean);
-          const fromImage = (p.image || '').split('|').map(s => s.trim()).filter(Boolean);
-          p.images = fromImages.length ? fromImages : (fromImage.length ? fromImage : []);
-          if (!p.images.length && p.image) p.images = [p.image];
-
+        for (const p of products) {
           const card = document.createElement('div');
           card.className = 'card';
-          const firstImg = (p.images && p.images[0]) || p.image;
+          // Garante array de imagens
+          if (!p.images) p.images = p.image ? [p.image] : [];
+
+          // Fallback if empty
+          if (p.images.length === 0) p.images = [''];
+
+          const hasMultiple = p.images.length > 1;
+          const firstImg = p.images[0];
+          const uniqueId = `card-${p.id}`;
+
+          let imageHtml = '';
+          if (hasMultiple) {
+            imageHtml = `
+                <div class="card-image-container" id="${uniqueId}">
+                    <button class="card-nav card-prev">‹</button>
+                    <img src="${firstImg}" alt="${p.title}" data-index="0">
+                    <button class="card-nav card-next">›</button>
+                </div>
+             `;
+          } else {
+            imageHtml = `
+                <div class="card-image-container">
+                    <img src="${firstImg}" alt="${p.title}">
+                </div>
+             `;
+          }
+
           card.innerHTML = `
-            <img src="${firstImg}"
-                 srcset="${firstImg} 400w, ${firstImg} 800w, ${firstImg} 1200w"
-                 sizes="(min-width: 1100px) 25vw, (min-width: 700px) 33vw, 90vw"
-                 loading="lazy" decoding="async" alt="${p.title}">
+            ${imageHtml}
             <div class="info">
               <div>
                 <div>${p.title}</div>
                 <div class="price">${p.price}</div>
               </div>
               <div>
-                <a href="#" class="btn" data-id="${p.id}">Detalhes</a>
+                <a href="#" class="btn-details btn" data-id="${p.id}">Detalhes</a>
               </div>
             </div>`;
           grid.appendChild(card);
 
-          card.querySelector('.btn').addEventListener('click', (e) => {
+          // Event Listeners
+          card.querySelector('.btn-details').addEventListener('click', (e) => {
             e.preventDefault();
             openModal(p);
           });
+
+          if (hasMultiple) {
+            const container = card.querySelector(`#${uniqueId}`);
+            const imgEl = container.querySelector('img');
+            const prevBtn = container.querySelector('.card-prev');
+            const nextBtn = container.querySelector('.card-next');
+            let currentIndex = 0;
+            let intervalId = null;
+            const intervalTime = p.autoplay_interval || 2000;
+
+            const updateImage = (idx) => {
+              if (idx < 0) idx = p.images.length - 1;
+              if (idx >= p.images.length) idx = 0;
+              currentIndex = idx;
+              imgEl.src = p.images[currentIndex];
+              imgEl.dataset.index = currentIndex;
+            };
+
+            const startAutoPlay = () => {
+              if (intervalTime > 0) {
+                intervalId = setInterval(() => {
+                  updateImage(currentIndex + 1);
+                }, intervalTime);
+              }
+            };
+
+            const stopAutoPlay = () => {
+              if (intervalId) clearInterval(intervalId);
+            };
+
+            prevBtn.addEventListener('click', (e) => {
+              e.stopPropagation(); // Prevent modal open
+              stopAutoPlay();
+              updateImage(currentIndex - 1);
+            });
+
+            nextBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              stopAutoPlay();
+              updateImage(currentIndex + 1);
+            });
+
+            // Start autoplay
+            startAutoPlay();
+
+            // Pause on hover
+            container.addEventListener('mouseenter', stopAutoPlay);
+            container.addEventListener('mouseleave', startAutoPlay);
+          }
         }
       } catch (e) {
-        console.error('Erro ao carregar produtos.csv', e);
+        console.error('Erro ao carregar produtos', e);
       }
     }
 
     function openModal(p) {
-      // Configura carrossel
-      setupCarousel(p.images && p.images.length ? p.images : (p.image ? [p.image] : []), p.title);
+      setupCarousel(p.images && p.images.length ? p.images : (p.image ? [p.image] : []), p.title, p.autoplay_interval);
       document.getElementById('mtitle').textContent = p.title;
       document.getElementById('mprice').textContent = p.price;
-      // Permite quebrar linhas usando "\n" no CSV
       document.getElementById('mdesc').textContent = (p.description || '').replace(/\\n/g, '\n');
       const ul = document.getElementById('mfeatures');
       ul.innerHTML = '';
-      p.features.forEach(f => { const li = document.createElement('li'); li.textContent = f; ul.appendChild(li); });
+      if (p.features) {
+        p.features.forEach(f => { const li = document.createElement('li'); li.textContent = f; ul.appendChild(li); });
+      }
       const wa = document.getElementById('mwa');
       wa.href = p.whatsapp || '#';
       document.getElementById('modal').classList.add('active');
@@ -304,25 +826,39 @@
       document.body.style.overflow = 'hidden';
     }
 
-    function closeModal(){
+    function closeModal() {
+      if (carouselState.intervalId) clearInterval(carouselState.intervalId);
       document.getElementById('modal').classList.remove('active');
       document.getElementById('modal').setAttribute('aria-hidden', 'true');
       document.body.style.overflow = 'auto';
     }
 
+    // Expose to global scope for HTML onclick
+    window.closeModal = closeModal;
+
     document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') closeModal(); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
     // Funções do carrossel
-    function setupCarousel(images, title){
+    function setupCarousel(images, title, interval) {
+      if (carouselState.intervalId) clearInterval(carouselState.intervalId);
       carouselState.images = images || [];
       carouselState.index = 0;
+      carouselState.autoplayTime = interval || 2000;
+
       showCarouselImage(0, title);
       buildDots();
       updateNavVisibility();
+
+      // Start Auto-play if multiple images and interval > 0
+      if (carouselState.images.length > 1 && carouselState.autoplayTime > 0) {
+        carouselState.intervalId = setInterval(() => {
+          showCarouselImage(carouselState.index + 1, title);
+        }, carouselState.autoplayTime);
+      }
     }
 
-    function showCarouselImage(i, title){
+    function showCarouselImage(i, title) {
       if (!carouselState.images.length) {
         document.getElementById('mimg').src = '';
         document.getElementById('mimg').alt = '';
@@ -342,23 +878,23 @@
       highlightDot();
     }
 
-    function buildDots(){
+    function buildDots() {
       const dots = document.getElementById('mdots');
       dots.innerHTML = '';
       const total = carouselState.images.length;
       if (total <= 1) { dots.style.display = 'none'; return; }
       dots.style.display = 'flex';
-      for (let i=0;i<total;i++){
+      for (let i = 0; i < total; i++) {
         const b = document.createElement('button');
-        b.className = 'dot' + (i===carouselState.index ? ' active' : '');
+        b.className = 'dot' + (i === carouselState.index ? ' active' : '');
         b.type = 'button';
-        b.setAttribute('aria-label', `Ir para imagem ${i+1}`);
+        b.setAttribute('aria-label', `Ir para imagem ${i + 1}`);
         b.addEventListener('click', () => showCarouselImage(i));
         dots.appendChild(b);
       }
     }
 
-    function highlightDot(){
+    function highlightDot() {
       const dots = document.querySelectorAll('#mdots .dot');
       dots.forEach((d, idx) => {
         if (idx === carouselState.index) d.classList.add('active');
@@ -366,7 +902,7 @@
       });
     }
 
-    function updateNavVisibility(){
+    function updateNavVisibility() {
       const hasMultiple = carouselState.images.length > 1;
       document.getElementById('cprev').style.display = hasMultiple ? 'flex' : 'none';
       document.getElementById('cnext').style.display = hasMultiple ? 'flex' : 'none';
@@ -375,14 +911,36 @@
     // Controles de navegação
     document.getElementById('cprev').addEventListener('click', (e) => {
       e.stopPropagation();
+      if (carouselState.intervalId) clearInterval(carouselState.intervalId); // Stop auto-play on interaction
       showCarouselImage(carouselState.index - 1);
     });
     document.getElementById('cnext').addEventListener('click', (e) => {
       e.stopPropagation();
+      if (carouselState.intervalId) clearInterval(carouselState.intervalId); // Stop auto-play on interaction
       showCarouselImage(carouselState.index + 1);
     });
 
+    async function loadConfig() {
+      try {
+        const { data } = await supabase
+          .from('site_config')
+          .select('*')
+          .eq('id', 'main')
+          .single();
+
+        if (data && data.banner_image) {
+          const hero = document.querySelector('.hero');
+          hero.style.backgroundImage = `linear-gradient(rgba(139, 111, 71, .35), rgba(139, 111, 71, .35)), url('${data.banner_image}')`;
+          hero.style.backgroundPosition = data.banner_position || 'center';
+        }
+      } catch (e) {
+        console.error('Erro ao carregar config', e);
+      }
+    }
+
+    loadConfig();
     loadProducts();
   </script>
 </body>
+
 </html>

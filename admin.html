@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Caromê</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #803D16;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #602d10;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .status {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .logout-btn {
+            background: #ccc;
+            color: #333;
+            margin-bottom: 20px;
+            width: auto;
+        }
+
+        .logout-btn:hover {
+            background: #bbb;
+        }
+
+        .section-box {
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            background: #fafafa;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            font-size: 12px;
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .btn-edit {
+            background: #007bff;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+        }
+
+        .btn-move {
+            background: #6c757d;
+            padding: 5px 8px;
+            font-size: 12px;
+            margin-right: 2px;
+        }
+
+        .img-preview-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .img-preview-item {
+            position: relative;
+        }
+
+        .img-preview-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .btn-remove-img {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Administração</h1>
+
+        <!-- Login Section -->
+        <div id="loginSection">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" required>
+            </div>
+            <button id="loginBtn">Entrar</button>
+            <div id="loginStatus" class="status"></div>
+        </div>
+
+        <!-- Admin Section (Hidden by default) -->
+        <div id="adminSection" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <span>Bem-vindo!</span>
+                <button id="logoutBtn" class="logout-btn">Sair</button>
+            </div>
+
+            <!-- Banner Configuration -->
+            <div class="section-box">
+                <h2>Configuração do Banner</h2>
+                <form id="bannerForm">
+                    <div class="form-group">
+                        <label for="bannerImage">Imagem do Banner</label>
+                        <input type="file" id="bannerImage" accept="image/*">
+                        <div style="margin-top: 10px;">
+                            <img id="bannerPreview" src=""
+                                style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 4px; display: block;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bannerPosition">Posição (CSS background-position)</label>
+                        <input type="text" id="bannerPosition" placeholder="ex: center, top, 50% 20%">
+                        <small>Exemplos: 'center', 'top', 'bottom', 'center top'</small>
+                    </div>
+                    <button type="submit" id="saveBannerBtn">Salvar Banner</button>
+                    <div id="bannerStatus" class="status"></div>
+                </form>
+            </div>
+
+            <!-- Product Form -->
+            <div class="section-box">
+                <h2 id="formTitle">Cadastrar Produto</h2>
+                <form id="productForm">
+                    <input type="hidden" id="originalId"> <!-- To track edits -->
+
+                    <div class="form-group">
+                        <label for="id">ID (slug, ex: painel-luz)</label>
+                        <input type="text" id="id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Nome do Produto</label>
+                        <input type="text" id="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Preço (ex: R$ 100,00)</label>
+                        <input type="text" id="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descrição</label>
+                        <textarea id="description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="features">Características (separadas por |)</label>
+                        <input type="text" id="features" placeholder="Ex: Algodão | 80cm x 40cm">
+                    </div>
+                    <div class="form-group">
+                        <label for="autoplay_interval">Intervalo do Carrossel (ms)</label>
+                        <input type="number" id="autoplay_interval" placeholder="2000" value="2000">
+                        <small>Tempo em milissegundos para troca automática de imagens (0 para desativar).</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Imagens</label>
+                        <input type="file" id="image" accept="image/*" multiple>
+                        <small>Selecione uma ou mais imagens. A primeira será a principal.</small>
+                        <div id="currentImages" class="img-preview-container"></div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" id="submitBtn">Salvar Produto</button>
+                        <button type="button" id="cancelBtn" style="background: #ccc; display: none;">Cancelar</button>
+                    </div>
+                    <div id="status" class="status"></div>
+                </form>
+            </div>
+
+            <!-- Product List -->
+            <div class="section-box">
+                <h2>Produtos Cadastrados</h2>
+                <div id="productList">Carregando...</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { supabase } from './src/supabaseClient.js'
+
+        // Elements
+        const loginSection = document.getElementById('loginSection');
+        const adminSection = document.getElementById('adminSection');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const loginStatus = document.getElementById('loginStatus');
+
+        const productForm = document.getElementById('productForm');
+        const productList = document.getElementById('productList');
+        const status = document.getElementById('status');
+        const submitBtn = document.getElementById('submitBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const formTitle = document.getElementById('formTitle');
+        const currentImagesDiv = document.getElementById('currentImages');
+
+        const bannerForm = document.getElementById('bannerForm');
+        const bannerStatus = document.getElementById('bannerStatus');
+        const saveBannerBtn = document.getElementById('saveBannerBtn');
+        const bannerImageInput = document.getElementById('bannerImage');
+        const bannerPositionInput = document.getElementById('bannerPosition');
+        const bannerPreview = document.getElementById('bannerPreview');
+
+        // State
+        let currentImagesList = [];
+        window.productsData = [];
+
+        // --- Auth Logic ---
+        async function checkUser() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                showAdmin();
+                loadProducts();
+                loadBannerConfig();
+            } else {
+                showLogin();
+            }
+        }
+
+        function showLogin() {
+            loginSection.classList.remove('hidden');
+            adminSection.classList.add('hidden');
+        }
+
+        function showAdmin() {
+            loginSection.classList.add('hidden');
+            adminSection.classList.remove('hidden');
+        }
+
+        loginBtn.addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            loginStatus.textContent = 'Entrando...';
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+
+            if (error) {
+                loginStatus.textContent = 'Erro: ' + error.message;
+                loginStatus.style.color = 'red';
+            } else {
+                loginStatus.textContent = '';
+                showAdmin();
+                loadProducts();
+                loadBannerConfig();
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            showLogin();
+        });
+
+        // --- Banner Logic ---
+        async function loadBannerConfig() {
+            try {
+                const { data, error } = await supabase
+                    .from('site_config')
+                    .select('*')
+                    .eq('id', 'main')
+                    .single();
+
+                if (data) {
+                    bannerPositionInput.value = data.banner_position || 'center';
+                    if (data.banner_image) {
+                        bannerPreview.src = data.banner_image;
+                    }
+                }
+            } catch (e) {
+                console.error('Erro ao carregar banner', e);
+            }
+        }
+
+        bannerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            saveBannerBtn.disabled = true;
+            saveBannerBtn.textContent = 'Salvando...';
+            bannerStatus.textContent = '';
+
+            try {
+                const position = bannerPositionInput.value;
+                const imageFile = bannerImageInput.files[0];
+                let publicUrl = null;
+
+                if (imageFile) {
+                    const fileExt = imageFile.name.split('.').pop();
+                    const fileName = `banner-${Date.now()}.${fileExt}`;
+                    const { error: uploadError } = await supabase.storage
+                        .from('product-images')
+                        .upload(fileName, imageFile);
+
+                    if (uploadError) throw uploadError;
+
+                    const { data } = supabase.storage
+                        .from('product-images')
+                        .getPublicUrl(fileName);
+                    publicUrl = data.publicUrl;
+                } else {
+                    // Keep existing if not changed, but we need to know the existing one.
+                    // If publicUrl is null, we might overwrite with null if we are not careful.
+                    // But upsert will replace. So we should fetch existing if we didn't upload new.
+                    if (bannerPreview.src && bannerPreview.src !== window.location.href) {
+                        publicUrl = bannerPreview.src;
+                    }
+                }
+
+                const { error } = await supabase
+                    .from('site_config')
+                    .upsert({
+                        id: 'main',
+                        banner_image: publicUrl,
+                        banner_position: position
+                    });
+
+                if (error) throw error;
+
+                bannerStatus.textContent = 'Banner atualizado!';
+                bannerStatus.style.color = 'green';
+                if (publicUrl) bannerPreview.src = publicUrl;
+
+            } catch (err) {
+                console.error(err);
+                bannerStatus.textContent = 'Erro ao salvar banner: ' + err.message;
+                bannerStatus.style.color = 'red';
+            } finally {
+                saveBannerBtn.disabled = false;
+                saveBannerBtn.textContent = 'Salvar Banner';
+            }
+        });
+
+
+        // --- Product Logic ---
+        async function loadProducts() {
+            productList.innerHTML = 'Carregando...';
+            const { data, error } = await supabase
+                .from('products')
+                .select('*')
+                .order('position', { ascending: true }); // Sort by position
+
+            if (error) {
+                // Try without order if position fails
+                console.warn('Erro ao ordenar por position:', error);
+                const { data: data2, error: error2 } = await supabase.from('products').select('*');
+                if (error2) {
+                    productList.textContent = 'Erro ao carregar: ' + error.message;
+                    return;
+                }
+                window.productsData = data2;
+            } else {
+                window.productsData = data;
+            }
+
+            if (!window.productsData || !window.productsData.length) {
+                productList.textContent = 'Nenhum produto cadastrado.';
+                return;
+            }
+
+            let html = '<table>';
+            html += '<tr><th>Img</th><th>Nome</th><th>Preço</th><th>Ações</th></tr>';
+
+            window.productsData.forEach((p, index) => {
+                const img = (p.images && p.images[0]) || p.image || '';
+
+                let moveButtons = '';
+                if (index > 0) {
+                    moveButtons += `<button class="action-btn btn-move" onclick="window.moveProduct('${p.id}', -1)">▲</button>`;
+                }
+                if (index < window.productsData.length - 1) {
+                    moveButtons += `<button class="action-btn btn-move" onclick="window.moveProduct('${p.id}', 1)">▼</button>`;
+                }
+
+                html += `<tr>
+                    <td><img src="${img}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
+                    <td>${p.title}</td>
+                    <td>${p.price}</td>
+                    <td>
+                        ${moveButtons}
+                        <button class="action-btn btn-edit" onclick="window.editProduct('${p.id}')">Editar</button>
+                        <button class="action-btn btn-delete" onclick="window.deleteProduct('${p.id}')">Excluir</button>
+                    </td>
+                </tr>`;
+            });
+            html += '</table>';
+            productList.innerHTML = html;
+        }
+
+        // Move Product
+        window.moveProduct = async (id, direction) => {
+            const currentIndex = window.productsData.findIndex(p => p.id === id);
+            if (currentIndex === -1) return;
+
+            const targetIndex = currentIndex + direction;
+            if (targetIndex < 0 || targetIndex >= window.productsData.length) return;
+
+            const currentProduct = window.productsData[currentIndex];
+            const targetProduct = window.productsData[targetIndex];
+
+            // Use array index as fallback position if null
+            const p1 = currentProduct.position !== null ? currentProduct.position : currentIndex;
+            const p2 = targetProduct.position !== null ? targetProduct.position : targetIndex;
+
+            // Swap logic: if they are adjacent, we can just swap their 'position' values.
+            // But if 'position' values are messy (e.g. duplicates or nulls), this might be tricky.
+            // Robust way: Assign 'position' to ALL items based on current array order, then swap.
+            // But that's too many writes.
+            // Simple way: Swap their effective positions.
+
+            // If positions are equal (e.g. both 0 or null), we need to diverge them.
+            let newP1 = p2;
+            let newP2 = p1;
+
+            if (newP1 === newP2) {
+                newP1 = targetIndex;
+                newP2 = currentIndex; // actually targetIndex is where P1 wants to go
+                // Wait, if I want to move P1 to P2's spot.
+                // P1 should get P2's position value.
+                // P2 should get P1's position value.
+            }
+
+            try {
+                // Update one by one
+                await supabase.from('products').update({ position: newP1 }).eq('id', currentProduct.id);
+                await supabase.from('products').update({ position: newP2 }).eq('id', targetProduct.id);
+                loadProducts();
+            } catch (e) {
+                alert('Erro ao mover (verifique se a coluna "position" existe no Supabase): ' + e.message);
+            }
+        };
+
+        // Edit
+        window.editProduct = (id) => {
+            const p = window.productsData.find(x => x.id === id);
+            if (!p) return;
+
+            document.getElementById('originalId').value = p.id;
+            document.getElementById('id').value = p.id;
+            document.getElementById('title').value = p.title;
+            document.getElementById('price').value = p.price;
+            document.getElementById('description').value = p.description;
+            document.getElementById('features').value = (p.features || []).join(' | ');
+            document.getElementById('autoplay_interval').value = p.autoplay_interval || 2000;
+
+            currentImagesList = p.images || (p.image ? [p.image] : []);
+            renderCurrentImages();
+
+            formTitle.textContent = 'Editar Produto';
+            submitBtn.textContent = 'Atualizar Produto';
+            cancelBtn.style.display = 'inline-block';
+
+            productForm.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // Cancel Edit
+        cancelBtn.addEventListener('click', resetForm);
+
+        function resetForm() {
+            productForm.reset();
+            document.getElementById('originalId').value = '';
+            currentImagesList = [];
+            renderCurrentImages();
+            formTitle.textContent = 'Cadastrar Produto';
+            submitBtn.textContent = 'Salvar Produto';
+            cancelBtn.style.display = 'none';
+        }
+
+        // Image Handling
+        window.removeImage = (idx) => {
+            currentImagesList.splice(idx, 1);
+            renderCurrentImages();
+        };
+
+        function renderCurrentImages() {
+            currentImagesDiv.innerHTML = '';
+            currentImagesList.forEach((url, idx) => {
+                const div = document.createElement('div');
+                div.className = 'img-preview-item';
+                div.innerHTML = `
+                    <img src="${url}">
+                    <button type="button" class="btn-remove-img" onclick="window.removeImage(${idx})">×</button>
+                `;
+                currentImagesDiv.appendChild(div);
+            });
+        }
+
+        // Delete
+        window.deleteProduct = async (id) => {
+            if (!confirm('Tem certeza que deseja excluir este produto?')) return;
+
+            const { error } = await supabase.from('products').delete().eq('id', id);
+            if (error) {
+                alert('Erro ao excluir: ' + error.message);
+            } else {
+                loadProducts();
+            }
+        };
+
+        // Save (Insert/Update)
+        productForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            submitBtn.disabled = true;
+            status.textContent = 'Processando...';
+            status.style.color = 'black';
+
+            try {
+                const originalId = document.getElementById('originalId').value;
+                const id = document.getElementById('id').value;
+                const title = document.getElementById('title').value;
+                const price = document.getElementById('price').value;
+                const description = document.getElementById('description').value;
+                const features = document.getElementById('features').value.split('|').map(f => f.trim()).filter(Boolean);
+                const autoplay_interval = parseInt(document.getElementById('autoplay_interval').value) || 2000;
+                const imageFiles = document.getElementById('image').files;
+
+                const whatsapp = `https://wa.me/5541995358400?text=Olá! Tenho interesse no item ${title}`;
+
+                // Upload new images
+                const newImageUrls = [];
+                for (let i = 0; i < imageFiles.length; i++) {
+                    const file = imageFiles[i];
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${id}-${Date.now()}-${i}.${fileExt}`;
+
+                    const { error: uploadError } = await supabase.storage
+                        .from('product-images')
+                        .upload(fileName, file);
+
+                    if (uploadError) throw uploadError;
+
+                    const { data } = supabase.storage
+                        .from('product-images')
+                        .getPublicUrl(fileName);
+
+                    newImageUrls.push(data.publicUrl);
+                }
+
+                // Combine images
+                const finalImages = [...currentImagesList, ...newImageUrls];
+                if (finalImages.length === 0) {
+                    throw new Error('O produto precisa de pelo menos uma imagem.');
+                }
+
+                const productData = {
+                    id,
+                    title,
+                    price,
+                    image: finalImages[0], // Main image
+                    images: finalImages,
+                    description,
+                    features,
+                    whatsapp,
+                    autoplay_interval
+                };
+
+                let error;
+                if (originalId) {
+                    // Update
+                    const { error: updateError } = await supabase
+                        .from('products')
+                        .update(productData)
+                        .eq('id', originalId);
+                    error = updateError;
+                } else {
+                    // Insert
+                    const { error: insertError } = await supabase
+                        .from('products')
+                        .insert([productData]);
+                    error = insertError;
+                }
+
+                if (error) throw error;
+
+                status.textContent = originalId ? 'Produto atualizado!' : 'Produto salvo!';
+                status.style.color = 'green';
+                resetForm();
+                loadProducts();
+
+            } catch (err) {
+                console.error(err);
+                status.textContent = 'Erro ao salvar: ' + err.message;
+                status.style.color = 'red';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = document.getElementById('originalId').value ? 'Atualizar Produto' : 'Salvar Produto';
+            }
+        });
+
+        // Initialize
+        checkUser();
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-08-06%20at%2010.37.31.jpeg" alt="Suporte com Vaso">
+                        <div class="product-overlay">
+                            <button class="overlay-button" onclick="openModal('suporte-vaso')">Ver detalhes</button>
+                            <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte com Vaso Incluído (R$ 65,00). Poderia me dar mais informações?" class="overlay-cart">
+                                <div class="whatsapp-icon"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Suporte com Vaso Incluído</div>
+                        <div class="product-price">R$ 65,00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botões CTA -->
+            <div class="cta-buttons">
+                <a href="#" class="cta-button" onclick="showPage('shop')">Ver todos os produtos</a>
+                <a href="#" class="cta-button">Conheça nossa história</a>
+            </div>
+        </section>
+
+        <!-- Seção sobre Macramê -->
+        <section class="section">
+            <div class="about-macrame">
+                <h2 class="section-title">O que é Macramê?</h2>
+                <p>Macramê é uma arte têxtil ancestral que utiliza apenas nós para criar peças decorativas únicas e funcionais. Com origem árabe, essa técnica milenar conquistou o mundo pela sua beleza natural e versatilidade.</p>
+                
+                <div class="macrame-features">
+                    <div class="feature">
+                        <h3>🌿 Arte Sustentável</h3>
+                        <p>Feito com fibras naturais, o macramê é uma escolha consciente para decorar seu lar de forma sustentável.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>✨ Peças Únicas</h3>
+                        <p>Cada produto é cuidadosamente feito à mão, garantindo que você tenha uma peça exclusiva em sua casa.</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🏡 Versatilidade</h3>
+                        <p>Do minimalista ao boho chic, o macramê se adapta a qualquer estilo de decoração com elegância.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Depoimentos -->
+        <section class="section">
+            <div class="testimonials">
+                <h2 class="section-title">O que nossos clientes dizem</h2>
+                <div class="testimonial">
+                    <div class="testimonial-text">Produtos lindos e de excelente qualidade! Transformaram completamente minha decoração.</div>
+                    <div class="testimonial-author">- Maria Silva</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">Atendimento excepcional e entrega rápida. Super recomendo!</div>
+                    <div class="testimonial-author">- João Santos</div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-text">Cada peça é única e feita com muito carinho. Adoro!</div>
+                    <div class="testimonial-author">- Ana Costa</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Página da Loja -->
+    <div id="shop" class="page">
+        <div class="section">
+            <div class="shop-container">
+                <!-- Sidebar de Filtros -->
+                <aside class="sidebar">
+                    <h3 class="filter-title">Filtrar por</h3>
+                    
+                    <div class="filter-group">
+                        <h4>Categorias</h4>
+                        <label><input type="checkbox"> Painéis</label>

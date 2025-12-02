@@ -1,0 +1,82 @@
+  <section id="faq" class="section">
+    <h2 class="section-title">Perguntas Frequentes</h2>
+    <p class="section-sub">Em breve adicionaremos as principais dúvidas por aqui.</p>
+    <div class="faq">
+      <details class="faq-item" open>
+        <summary>Como faço para comprar uma peça?</summary>
+        <div class="faq-a">
+          Você pode escolher os modelos disponíveis em nossa loja online ou solicitar uma peça personalizada entrando em contato conosco.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Vocês fazem peças sob medida?</summary>
+        <div class="faq-a">
+          Sim! Trabalhamos com personalização de cores, tamanhos e modelos. Basta nos enviar sua ideia e faremos um orçamento exclusivo.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Quanto tempo leva para produzir uma peça?</summary>
+        <div class="faq-a">
+          O prazo varia conforme o tamanho e a complexidade da peça. Em média, peças pequenas ficam prontas em até 7 dias úteis, já peças maiores podem levar de 10 a 20 dias úteis.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Qual é o prazo de entrega?</summary>
+        <div class="faq-a">
+          O prazo depende da sua região e será informado na finalização da compra, além do tempo de produção da peça.<br><br>
+          Para pedidos realizados em Curitiba e região, podemos enviar via Uber Flash ou combinar a retirada.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Como devo cuidar do meu macramê?</summary>
+        <div class="faq-a">
+          <ul>
+            <li>Evite molhar as peças.</li>
+            <li>Se acumular poeira, utilize um pincel/pano macio ou aspirador de pó leve.</li>
+            <li>Não exponha diretamente ao sol por longos períodos para preservar as cores.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Por que escolher a Caromê?</summary>
+        <div class="faq-a">
+          Na Caromê, cada peça é feita à mão, com cuidado em cada detalhe, trazendo exclusividade e autenticidade para sua decoração. Diferente das produções em massa, nossos macramês são 100% artesanais, impermeabilizados para maior durabilidade e acompanhados de cavilhas de madeira envernizadas, que garantem acabamento refinado. Além disso, cada criação carrega o valor do feito à mão, tornando seu ambiente único, acolhedor e cheio de personalidade.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer id="contato" class="section">
+    <h2 class="section-title">Contato</h2>
+    <div class="section-sub">Fale conosco para encomendas e dúvidas.</div>
+    <div class="cta">
+      <a class="btn" href="https://wa.me/5541995358400" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn secondary" href="mailto:contato@caromeartes.com.br">E-mail</a>
+      <a class="btn secondary" href="https://www.instagram.com/caromeartes/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </footer>
+
+  <!-- Modal de produto -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="close" onclick="closeModal()" aria-label="Fechar">×</button>
+    <div class="box">
+      <img id="mimg" class="img" alt="">
+      <div class="content">
+        <div id="mtitle" class="title"></div>
+        <div id="mprice" class="mprice"></div>
+        <div id="mdesc"></div>
+        <ul id="mfeatures" class="features"></ul>
+        <a id="mwa" class="btn" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadProducts() {
+      try {
+        const res = await fetch('products.csv');

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Debug Page</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #333;
+            color: #0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Debug Log</h1>
+    <div id="log"></div>
+    <script type="module">
+        const logDiv = document.getElementById('log');
+        function log(msg, type = 'info') {
+            const div = document.createElement('div');
+            div.textContent = `[${new Date().toLocaleTimeString()}] [${type}] ${msg}`;
+            if (type === 'error') div.style.color = '#f55';
+            if (type === 'success') div.style.color = '#5f5';
+            logDiv.appendChild(div);
+        }
+
+        log('Starting debug...', 'info');
+
+        try {
+            log('Importing supabaseClient...', 'info');
+            const { supabase } = await import('./src/supabaseClient.js');
+            log('Supabase client imported.', 'success');
+
+            log('Checking Environment Variables...', 'info');
+            // We can't see the values for security, but we can check if they exist
+            if (import.meta.env.VITE_SUPABASE_URL) log('VITE_SUPABASE_URL is defined.', 'success');
+            else log('VITE_SUPABASE_URL is MISSING!', 'error');
+
+            if (import.meta.env.VITE_SUPABASE_ANON_KEY) log('VITE_SUPABASE_ANON_KEY is defined.', 'success');
+            else log('VITE_SUPABASE_ANON_KEY is MISSING!', 'error');
+
+            log('Testing Supabase Connection (Select from products)...', 'info');
+            const { data, error } = await supabase.from('products').select('count', { count: 'exact', head: true });
+
+            if (error) {
+                log(`Supabase Error: ${error.message} (Code: ${error.code})`, 'error');
+                log('Hint: Check if Table exists and RLS policies are set.', 'info');
+            } else {
+                log('Supabase Connection OK.', 'success');
+            }
+
+            log('Testing CSV Fetch (products.csv)...', 'info');
+            const res = await fetch('products.csv');
+            if (res.ok) {
+                log('CSV Fetch OK.', 'success');
+                const text = await res.text();
+                log(`CSV Content Length: ${text.length} bytes`, 'info');
+            } else {
+                log(`CSV Fetch Failed: ${res.status} ${res.statusText}`, 'error');
+            }
+
+        } catch (e) {
+            log(`CRITICAL ERROR: ${e.message}`, 'error');
+            console.error(e);
+        }
+    </script>
+</body>
+
+</html>

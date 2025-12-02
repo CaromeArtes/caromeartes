@@ -1,0 +1,61 @@
+                    <!-- Produto Personalizado -->
+                    <div class="product-card" style="border: 2px dashed #8B6F47;">
+                        <div class="product-image" style="background: linear-gradient(135deg, #F5F1EB, #E6DDD4); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="font-size: 48px; color: #8B6F47; margin-bottom: 10px;">✨</div>
+                            <div style="font-size: 18px; color: #8B6F47; text-align: center; padding: 0 20px;">Crie sua peça única!</div>
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('personalizado')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Gostaria de encomendar uma peça personalizada de macramê. Podemos conversar sobre as possibilidades?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Peça Personalizada</div>
+                            <div class="product-price">Sob consulta</div>
+                        </div>
+                    </div> 20px;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Porta-copos Kit 4 unidades</div>
+                            <div class="product-price">R$ 35,00</div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contato / Footer -->
+    <footer id="contato" class="section">
+        <h2 class="section-title">Contato</h2>
+        <div class="cta-buttons">
+            <a href="https://wa.me/5541995358400" class="modal-whatsapp" target="_blank" rel="noopener">
+                <div class="whatsapp-icon"></div>
+                WhatsApp
+            </a>
+            <a href="mailto:contato@caromeartes.com.br" class="cta-button">E-mail</a>
+            <a href="https://www.instagram.com/caromeartes/" target="_blank" class="instagram-btn" rel="noopener">
+                <div class="instagram-icon"></div>
+                Instagram
+            </a>
+        </div>
+    </footer>
+
+    <!-- Modal de Detalhes -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle" class="modal-title"></h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" class="modal-image" src="" alt="">
+                <div class="modal-info">
+                    <div id="modalPrice" class="modal-price"></div>
+                    <div id="modalDescription" class="modal-description"></div>
+                    <div class="modal-features">
+                        <h4>Características:</h4>
+                        <ul id="modalFeatures"></ul>

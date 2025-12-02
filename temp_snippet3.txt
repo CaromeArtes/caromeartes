@@ -1,0 +1,66 @@
+                                <button class="overlay-button" onclick="openModal('prateleira')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse na Prateleira Suspensa (R$ 85,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Prateleira Suspensa</div>
+                            <div class="product-price">R$ 85,00</div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/a8c74ba1-3f5a-477a-b312-ce0c471bea67.jpeg" alt="Chaveiro Folha">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('chaveiro')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Chaveiro Folha (R$ 15,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Chaveiro Folha</div>
+                            <div class="product-price">R$ 15,00</div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/ffe2fed1-a91b-4cec-acb0-e9859d19c68d.jpeg" alt="Porta-copos Kit">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('porta-copos-kit')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Porta-copos Kit 4 unidades (R$ 35,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Porta-copos Kit 4 unidades</div>
+                            <div class="product-price">R$ 35,00</div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/WhatsApp%20Image%202025-09-25%20at%2020.52.03.jpeg" alt="Suporte Duplo">
+                            <div class="product-overlay">
+                                <button class="overlay-button" onclick="openModal('suporte-duplo')">Ver detalhes</button>
+                                <a href="https://wa.me/5541995358400?text=Olá! Tenho interesse no Suporte Duplo para Plantas (R$ 95,00). Poderia me dar mais informações?" class="overlay-cart">
+                                    <div class="whatsapp-icon"></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">Suporte Duplo para Plantas</div>
+                            <div class="product-price">R$ 95,00</div>
+                        </div>
+                    </div>
+
+                    <!-- Produto Personalizado -->
+                    <div class="product-card" style="border: 2px dashed #8B6F47;">
+                        <div class="product-image" style="background: linear-gradient(135deg, #F5F1EB, #E6DDD4); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <div style="font-size: 48px; color: #8B6F47; margin-bottom: 10px;">✨</div>
+                            <div style="font-size: 18px; color: #8B6F47; text-align: center; padding: 0 20px;">Crie sua peça única!</div>
+                            <div class="product-overlay">
