@@ -143,9 +143,20 @@
 
     /* Produtos */
     .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 28px;
+      column-count: 3;
+      column-gap: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        column-count: 1;
+      }
     }
 
     .card {
@@ -154,6 +165,8 @@
       overflow: hidden;
       box-shadow: 0 8px 22px rgba(139, 111, 71, .12);
       transition: transform .25s, box-shadow .25s;
+      break-inside: avoid;
+      margin-bottom: 28px;
     }
 
     .card:hover {
@@ -163,15 +176,13 @@
 
     .card img {
       width: 100%;
-      height: 230px;
-      object-fit: cover;
+      height: auto;
       display: block;
       transition: opacity 0.3s;
     }
 
     .card-image-container {
       position: relative;
-      height: 230px;
       overflow: hidden;
     }
 
