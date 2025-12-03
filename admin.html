@@ -5,26 +5,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Caromê</title>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
         body {
             font-family: sans-serif;
-            padding: 20px;
+            margin: 0;
+            padding: 0;
             background: #f4f4f4;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        aside {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        aside h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #ecf0f1;
+        }
+
+        .menu-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 5px;
+            transition: background 0.2s;
+        }
+
+        .menu-item:hover {
+            background: #34495e;
+        }
+
+        .menu-item.active {
+            background: #803D16;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .logout-btn:hover {
+            background: #a93226;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
-        h1,
         h2 {
-            text-align: center;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
             color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .form-group {
@@ -41,7 +108,7 @@
         textarea,
         select {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
@@ -54,9 +121,7 @@
             padding: 10px 15px;
             border-radius: 4px;
             cursor: pointer;
-            width: 100%;
             font-size: 16px;
-            margin-top: 10px;
         }
 
         button:hover {
@@ -70,55 +135,63 @@
 
         .status {
             margin-top: 15px;
-            text-align: center;
             font-weight: bold;
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
-        .logout-btn {
-            background: #ccc;
-            color: #333;
-            margin-bottom: 20px;
-            width: auto;
+        /* Product List Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
         }
 
-        .logout-btn:hover {
-            background: #bbb;
-        }
-
-        .section-box {
+        .product-card {
+            background: #fff;
             border: 1px solid #eee;
-            padding: 15px;
             border-radius: 8px;
-            margin-bottom: 30px;
-            background: #fafafa;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            cursor: grab;
+            position: relative;
         }
 
-        table {
+        .product-card:active {
+            cursor: grabbing;
+        }
+
+        .product-card img {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
 
-        th,
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
+        .product-card h3 {
+            margin: 0 0 5px;
+            font-size: 18px;
         }
 
-        th {
-            background: #eee;
+        .product-card .price {
+            color: #803D16;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
         }
 
         .action-btn {
             padding: 5px 10px;
             font-size: 12px;
-            width: auto;
-            margin-right: 5px;
+            flex: 1;
         }
 
         .btn-edit {
@@ -127,13 +200,6 @@
 
         .btn-delete {
             background: #dc3545;
-        }
-
-        .btn-move {
-            background: #6c757d;
-            padding: 5px 8px;
-            font-size: 12px;
-            margin-right: 2px;
         }
 
         .img-preview-container {
@@ -160,7 +226,6 @@
             right: -5px;
             background: red;
             color: white;
-            border: none;
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -171,15 +236,100 @@
             justify-content: center;
             padding: 0;
         }
+
+        /* Banner Visual Editor */
+        .banner-editor {
+            width: 100%;
+            height: 300px;
+            background: #eee;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: move;
+            border: 2px dashed #ccc;
+        }
+
+        .banner-editor img {
+            position: absolute;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            /* Let clicks pass to container */
+            transform-origin: top left;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        /* Login Screen Override */
+        #loginSection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        #loginSection .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Customization Grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+
+        .color-item input[type="color"] {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Administração</h1>
-
-        <!-- Login Section -->
-        <div id="loginSection">
+    <!-- Login Section -->
+    <div id="loginSection">
+        <div class="login-box">
+            <h2 style="text-align: center;">Login Admin</h2>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" required>
@@ -188,91 +338,163 @@
                 <label for="password">Senha</label>
                 <input type="password" id="password" required>
             </div>
-            <button id="loginBtn">Entrar</button>
-            <div id="loginStatus" class="status"></div>
+            <button id="loginBtn" style="width: 100%;">Entrar</button>
+            <div id="loginStatus" class="status" style="text-align: center;"></div>
         </div>
+    </div>
 
-        <!-- Admin Section (Hidden by default) -->
-        <div id="adminSection" class="hidden">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <span>Bem-vindo!</span>
-                <button id="logoutBtn" class="logout-btn">Sair</button>
+    <!-- Admin Layout (Hidden by default) -->
+    <div id="adminLayout" class="hidden" style="display: flex; width: 100%;">
+        <aside>
+            <h1>Caromê Admin</h1>
+            <div class="menu-item active" onclick="showSection('products')">Produtos</div>
+            <div class="menu-item" onclick="showSection('banner')">Banner</div>
+            <div class="menu-item" onclick="showSection('customization')">Personalização</div>
+            <button id="logoutBtn" class="logout-btn">Sair</button>
+        </aside>
+
+        <main>
+            <!-- Products Section -->
+            <div id="productsSection" class="container">
+                <!-- List View -->
+                <div id="productsListView">
+                    <h2>
+                        Produtos
+                        <button onclick="showProductForm()" style="width: auto; margin: 0; font-size: 14px;">+ Novo
+                            Produto</button>
+                    </h2>
+                    <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Arraste os itens para reordenar.</p>
+                    <div id="productList" class="product-grid">Carregando...</div>
+                </div>
+
+                <!-- Form View (Hidden) -->
+                <div id="productFormView" class="hidden">
+                    <h2 id="formTitle">Cadastrar Produto</h2>
+                    <form id="productForm">
+                        <input type="hidden" id="originalId"> <!-- To track edits -->
+
+                        <div class="form-group">
+                            <label for="id">ID (slug, ex: painel-luz)</label>
+                            <input type="text" id="id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Nome do Produto</label>
+                            <input type="text" id="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Preço (ex: R$ 100,00)</label>
+                            <input type="text" id="price" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Descrição</label>
+                            <textarea id="description" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="features">Características (separadas por |)</label>
+                            <input type="text" id="features" placeholder="Ex: Algodão | 80cm x 40cm">
+                        </div>
+                        <div class="form-group">
+                            <label for="autoplay_interval">Intervalo do Carrossel (ms)</label>
+                            <input type="number" id="autoplay_interval" placeholder="2000" value="2000">
+                            <small>Tempo em milissegundos para troca automática de imagens (0 para desativar).</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Imagens</label>
+                            <input type="file" id="image" accept="image/*" multiple>
+                            <small>Selecione uma ou mais imagens. A primeira será a principal.</small>
+                            <div id="currentImages" class="img-preview-container"></div>
+                        </div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" id="submitBtn">Salvar Produto</button>
+                            <button type="button" id="cancelBtn" style="background: #ccc;"
+                                onclick="hideProductForm()">Cancelar</button>
+                        </div>
+                        <div id="status" class="status"></div>
+                    </form>
+                </div>
             </div>
 
-            <!-- Banner Configuration -->
-            <div class="section-box">
+            <!-- Banner Section -->
+            <div id="bannerSection" class="container hidden">
                 <h2>Configuração do Banner</h2>
                 <form id="bannerForm">
                     <div class="form-group">
                         <label for="bannerImage">Imagem do Banner</label>
                         <input type="file" id="bannerImage" accept="image/*">
-                        <div style="margin-top: 10px;">
-                            <img id="bannerPreview" src=""
-                                style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 4px; display: block;">
-                        </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="bannerPosition">Posição (CSS background-position)</label>
-                        <input type="text" id="bannerPosition" placeholder="ex: center, top, 50% 20%">
-                        <small>Exemplos: 'center', 'top', 'bottom', 'center top'</small>
+                        <label>Posição Visual (Arraste a imagem abaixo)</label>
+                        <div id="bannerEditor" class="banner-editor">
+                            <img id="bannerPreview" src="" style="display: block;">
+                            <div class="banner-overlay">Arraste para ajustar</div>
+                        </div>
+                        <input type="hidden" id="bannerPosition">
+                        <small id="posDisplay" style="display: block; margin-top: 5px; color: #666;">Posição atual:
+                            center</small>
                     </div>
+
                     <button type="submit" id="saveBannerBtn">Salvar Banner</button>
                     <div id="bannerStatus" class="status"></div>
                 </form>
             </div>
 
-            <!-- Product Form -->
-            <div class="section-box">
-                <h2 id="formTitle">Cadastrar Produto</h2>
-                <form id="productForm">
-                    <input type="hidden" id="originalId"> <!-- To track edits -->
-
-                    <div class="form-group">
-                        <label for="id">ID (slug, ex: painel-luz)</label>
-                        <input type="text" id="id" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="title">Nome do Produto</label>
-                        <input type="text" id="title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Preço (ex: R$ 100,00)</label>
-                        <input type="text" id="price" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Descrição</label>
-                        <textarea id="description" rows="4" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="features">Características (separadas por |)</label>
-                        <input type="text" id="features" placeholder="Ex: Algodão | 80cm x 40cm">
-                    </div>
-                    <div class="form-group">
-                        <label for="autoplay_interval">Intervalo do Carrossel (ms)</label>
-                        <input type="number" id="autoplay_interval" placeholder="2000" value="2000">
-                        <small>Tempo em milissegundos para troca automática de imagens (0 para desativar).</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="image">Imagens</label>
-                        <input type="file" id="image" accept="image/*" multiple>
-                        <small>Selecione uma ou mais imagens. A primeira será a principal.</small>
-                        <div id="currentImages" class="img-preview-container"></div>
+            <!-- Customization Section -->
+            <div id="customizationSection" class="container hidden">
+                <h2>Personalização do Site</h2>
+                <form id="customizationForm">
+                    <h3>Cores</h3>
+                    <div class="color-grid">
+                        <div class="color-item">
+                            <input type="color" id="color-bg" value="#F2E5D5">
+                            <label>Fundo Principal</label>
+                        </div>
+                        <div class="color-item">
+                            <input type="color" id="color-text" value="#803D16">
+                            <label>Texto Principal</label>
+                        </div>
+                        <div class="color-item">
+                            <input type="color" id="color-accent" value="#A0845C">
+                            <label>Detalhes (Accent)</label>
+                        </div>
+                        <div class="color-item">
+                            <input type="color" id="color-header-bg" value="#F5F1EB">
+                            <label>Fundo Cabeçalho</label>
+                        </div>
+                        <div class="color-item">
+                            <input type="color" id="color-card-bg" value="#F7F7F7">
+                            <label>Fundo Cartão</label>
+                        </div>
+                        <div class="color-item">
+                            <input type="color" id="color-btn-bg" value="#803D16">
+                            <label>Botão Fundo</label>
+                        </div>
+                        <div class="color-item">
+                            <input type="color" id="color-btn-text" value="#F2E5D5">
+                            <label>Botão Texto</label>
+                        </div>
                     </div>
 
-                    <div style="display: flex; gap: 10px;">
-                        <button type="submit" id="submitBtn">Salvar Produto</button>
-                        <button type="button" id="cancelBtn" style="background: #ccc; display: none;">Cancelar</button>
+                    <h3 style="margin-top: 30px;">Textos</h3>
+                    <div class="form-group">
+                        <label for="text-hero">Título Principal (Hero)</label>
+                        <input type="text" id="text-hero" placeholder="Onde o fio se transforma em arte">
                     </div>
-                    <div id="status" class="status"></div>
+                    <div class="form-group">
+                        <label for="text-about">Intro "Quem Somos"</label>
+                        <textarea id="text-about" rows="3" placeholder="Cada peça é criada com amor..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="text-contact">Subtítulo Contato</label>
+                        <input type="text" id="text-contact" placeholder="Fale conosco para encomendas e dúvidas.">
+                    </div>
+
+                    <button type="submit" id="saveCustomizationBtn">Salvar Personalização</button>
+                    <div id="customizationStatus" class="status"></div>
                 </form>
             </div>
-
-            <!-- Product List -->
-            <div class="section-box">
-                <h2>Produtos Cadastrados</h2>
-                <div id="productList">Carregando...</div>
-            </div>
-        </div>
+        </main>
     </div>
 
     <script type="module">
@@ -280,29 +502,78 @@
 
         // Elements
         const loginSection = document.getElementById('loginSection');
-        const adminSection = document.getElementById('adminSection');
+        const adminLayout = document.getElementById('adminLayout');
         const loginBtn = document.getElementById('loginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const loginStatus = document.getElementById('loginStatus');
 
+        // Sections
+        const sections = {
+            products: document.getElementById('productsSection'),
+            banner: document.getElementById('bannerSection'),
+            customization: document.getElementById('customizationSection')
+        };
+
+        // Product Views
+        const productsListView = document.getElementById('productsListView');
+        const productFormView = document.getElementById('productFormView');
+
+        // Product Form Elements
         const productForm = document.getElementById('productForm');
         const productList = document.getElementById('productList');
         const status = document.getElementById('status');
         const submitBtn = document.getElementById('submitBtn');
-        const cancelBtn = document.getElementById('cancelBtn');
         const formTitle = document.getElementById('formTitle');
         const currentImagesDiv = document.getElementById('currentImages');
 
+        // Banner Elements
         const bannerForm = document.getElementById('bannerForm');
         const bannerStatus = document.getElementById('bannerStatus');
         const saveBannerBtn = document.getElementById('saveBannerBtn');
         const bannerImageInput = document.getElementById('bannerImage');
         const bannerPositionInput = document.getElementById('bannerPosition');
         const bannerPreview = document.getElementById('bannerPreview');
+        const bannerEditor = document.getElementById('bannerEditor');
+        const posDisplay = document.getElementById('posDisplay');
+
+        // Customization Elements
+        const customizationForm = document.getElementById('customizationForm');
+        const customizationStatus = document.getElementById('customizationStatus');
+        const saveCustomizationBtn = document.getElementById('saveCustomizationBtn');
 
         // State
         let currentImagesList = [];
         window.productsData = [];
+        let bannerDrag = { active: false, startX: 0, startY: 0, initialX: 50, initialY: 50 }; // percentages
+
+        // --- Navigation ---
+        window.showSection = (sectionName) => {
+            Object.values(sections).forEach(el => el.classList.add('hidden'));
+            sections[sectionName].classList.remove('hidden');
+
+            document.querySelectorAll('.menu-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.textContent.toLowerCase().includes(sectionName === 'products' ? 'produtos' : (sectionName === 'banner' ? 'banner' : 'personalização'))) {
+                    el.classList.add('active');
+                }
+            });
+
+            if (sectionName === 'products') {
+                hideProductForm(); // Ensure we start at list
+            }
+        };
+
+        window.showProductForm = () => {
+            productsListView.classList.add('hidden');
+            productFormView.classList.remove('hidden');
+            resetForm();
+        };
+
+        window.hideProductForm = () => {
+            productFormView.classList.add('hidden');
+            productsListView.classList.remove('hidden');
+            resetForm();
+        };
 
         // --- Auth Logic ---
         async function checkUser() {
@@ -311,6 +582,7 @@
                 showAdmin();
                 loadProducts();
                 loadBannerConfig();
+                loadCustomization();
             } else {
                 showLogin();
             }
@@ -318,12 +590,12 @@
 
         function showLogin() {
             loginSection.classList.remove('hidden');
-            adminSection.classList.add('hidden');
+            adminLayout.classList.add('hidden');
         }
 
         function showAdmin() {
             loginSection.classList.add('hidden');
-            adminSection.classList.remove('hidden');
+            adminLayout.classList.remove('hidden');
         }
 
         loginBtn.addEventListener('click', async () => {
@@ -344,6 +616,7 @@
                 showAdmin();
                 loadProducts();
                 loadBannerConfig();
+                loadCustomization();
             }
         });
 
@@ -352,7 +625,85 @@
             showLogin();
         });
 
-        // --- Banner Logic ---
+        // --- Customization Logic ---
+        async function loadCustomization() {
+            try {
+                const { data, error } = await supabase.storage
+                    .from('product-images')
+                    .download('theme.json');
+
+                if (data) {
+                    const text = await data.text();
+                    const theme = JSON.parse(text);
+
+                    // Colors
+                    if (theme.colors) {
+                        if (theme.colors['--bg-color']) document.getElementById('color-bg').value = theme.colors['--bg-color'];
+                        if (theme.colors['--text-color']) document.getElementById('color-text').value = theme.colors['--text-color'];
+                        if (theme.colors['--accent-color']) document.getElementById('color-accent').value = theme.colors['--accent-color'];
+                        if (theme.colors['--header-bg']) document.getElementById('color-header-bg').value = theme.colors['--header-bg'];
+                        if (theme.colors['--card-bg']) document.getElementById('color-card-bg').value = theme.colors['--card-bg'];
+                        if (theme.colors['--btn-bg']) document.getElementById('color-btn-bg').value = theme.colors['--btn-bg'];
+                        if (theme.colors['--btn-text']) document.getElementById('color-btn-text').value = theme.colors['--btn-text'];
+                    }
+
+                    // Texts
+                    if (theme.texts) {
+                        document.getElementById('text-hero').value = theme.texts.heroTitle || '';
+                        document.getElementById('text-about').value = theme.texts.aboutIntro || '';
+                        document.getElementById('text-contact').value = theme.texts.contactSubtitle || '';
+                    }
+                }
+            } catch (e) {
+                console.log('No theme found or error loading', e);
+            }
+        }
+
+        customizationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            saveCustomizationBtn.disabled = true;
+            saveCustomizationBtn.textContent = 'Salvando...';
+            customizationStatus.textContent = '';
+
+            const theme = {
+                colors: {
+                    '--bg-color': document.getElementById('color-bg').value,
+                    '--text-color': document.getElementById('color-text').value,
+                    '--accent-color': document.getElementById('color-accent').value,
+                    '--header-bg': document.getElementById('color-header-bg').value,
+                    '--card-bg': document.getElementById('color-card-bg').value,
+                    '--btn-bg': document.getElementById('color-btn-bg').value,
+                    '--btn-text': document.getElementById('color-btn-text').value,
+                },
+                texts: {
+                    heroTitle: document.getElementById('text-hero').value,
+                    aboutIntro: document.getElementById('text-about').value,
+                    contactSubtitle: document.getElementById('text-contact').value
+                }
+            };
+
+            try {
+                const blob = new Blob([JSON.stringify(theme)], { type: 'application/json' });
+                const { error } = await supabase.storage
+                    .from('product-images')
+                    .upload('theme.json', blob, { upsert: true });
+
+                if (error) throw error;
+
+                customizationStatus.textContent = 'Personalização salva com sucesso!';
+                customizationStatus.style.color = 'green';
+            } catch (err) {
+                console.error(err);
+                customizationStatus.textContent = 'Erro ao salvar: ' + err.message;
+                customizationStatus.style.color = 'red';
+            } finally {
+                saveCustomizationBtn.disabled = false;
+                saveCustomizationBtn.textContent = 'Salvar Personalização';
+            }
+        });
+
+
+        // --- Banner Logic (Visual Editor) ---
         async function loadBannerConfig() {
             try {
                 const { data, error } = await supabase
@@ -362,15 +713,83 @@
                     .single();
 
                 if (data) {
-                    bannerPositionInput.value = data.banner_position || 'center';
+                    const pos = data.banner_position || '50% 50%';
+                    bannerPositionInput.value = pos;
+                    posDisplay.textContent = `Posição atual: ${pos}`;
+
                     if (data.banner_image) {
                         bannerPreview.src = data.banner_image;
                     }
+
+                    // Parse position for visual editor
+                    const parts = pos.split(' ');
+                    if (parts.length >= 2) {
+                        bannerDrag.initialX = parseFloat(parts[0]);
+                        bannerDrag.initialY = parseFloat(parts[1]);
+                    } else if (pos === 'center') {
+                        bannerDrag.initialX = 50;
+                        bannerDrag.initialY = 50;
+                    }
+                    updateBannerPreviewStyle();
                 }
             } catch (e) {
                 console.error('Erro ao carregar banner', e);
             }
         }
+
+        function updateBannerPreviewStyle() {
+            bannerPreview.style.objectPosition = `${bannerDrag.initialX}% ${bannerDrag.initialY}%`;
+        }
+
+        // Visual Editor Events
+        bannerEditor.addEventListener('mousedown', (e) => {
+            bannerDrag.active = true;
+            // We don't use startX/Y for delta, we just set position based on mouse relative to container
+            updateDragPosition(e);
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (bannerDrag.active) {
+                updateDragPosition(e);
+            }
+        });
+
+        window.addEventListener('mouseup', () => {
+            bannerDrag.active = false;
+        });
+
+        function updateDragPosition(e) {
+            const rect = bannerEditor.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
+
+            // Clamp
+            x = Math.max(0, Math.min(x, rect.width));
+            y = Math.max(0, Math.min(y, rect.height));
+
+            const pctX = Math.round((x / rect.width) * 100);
+            const pctY = Math.round((y / rect.height) * 100);
+
+            bannerDrag.initialX = pctX;
+            bannerDrag.initialY = pctY;
+
+            const posString = `${pctX}% ${pctY}%`;
+            bannerPositionInput.value = posString;
+            posDisplay.textContent = `Posição atual: ${posString}`;
+            updateBannerPreviewStyle();
+        }
+
+        // Image change handler
+        bannerImageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    bannerPreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
         bannerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -397,10 +816,7 @@
                         .getPublicUrl(fileName);
                     publicUrl = data.publicUrl;
                 } else {
-                    // Keep existing if not changed, but we need to know the existing one.
-                    // If publicUrl is null, we might overwrite with null if we are not careful.
-                    // But upsert will replace. So we should fetch existing if we didn't upload new.
-                    if (bannerPreview.src && bannerPreview.src !== window.location.href) {
+                    if (bannerPreview.src && !bannerPreview.src.startsWith('data:')) {
                         publicUrl = bannerPreview.src;
                     }
                 }
@@ -417,7 +833,6 @@
 
                 bannerStatus.textContent = 'Banner atualizado!';
                 bannerStatus.style.color = 'green';
-                if (publicUrl) bannerPreview.src = publicUrl;
 
             } catch (err) {
                 console.error(err);
@@ -436,97 +851,80 @@
             const { data, error } = await supabase
                 .from('products')
                 .select('*')
-                .order('position', { ascending: true }); // Sort by position
+                .order('position', { ascending: true });
 
             if (error) {
-                // Try without order if position fails
                 console.warn('Erro ao ordenar por position:', error);
-                const { data: data2, error: error2 } = await supabase.from('products').select('*');
-                if (error2) {
-                    productList.textContent = 'Erro ao carregar: ' + error.message;
-                    return;
-                }
-                window.productsData = data2;
+                const { data: data2 } = await supabase.from('products').select('*');
+                window.productsData = data2 || [];
             } else {
-                window.productsData = data;
+                window.productsData = data || [];
             }
 
-            if (!window.productsData || !window.productsData.length) {
-                productList.textContent = 'Nenhum produto cadastrado.';
+            if (!window.productsData.length) {
+                productList.innerHTML = '<p>Nenhum produto cadastrado.</p>';
                 return;
             }
 
-            let html = '<table>';
-            html += '<tr><th>Img</th><th>Nome</th><th>Preço</th><th>Ações</th></tr>';
-
-            window.productsData.forEach((p, index) => {
-                const img = (p.images && p.images[0]) || p.image || '';
-
-                let moveButtons = '';
-                if (index > 0) {
-                    moveButtons += `<button class="action-btn btn-move" onclick="window.moveProduct('${p.id}', -1)">▲</button>`;
-                }
-                if (index < window.productsData.length - 1) {
-                    moveButtons += `<button class="action-btn btn-move" onclick="window.moveProduct('${p.id}', 1)">▼</button>`;
-                }
-
-                html += `<tr>
-                    <td><img src="${img}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
-                    <td>${p.title}</td>
-                    <td>${p.price}</td>
-                    <td>
-                        ${moveButtons}
-                        <button class="action-btn btn-edit" onclick="window.editProduct('${p.id}')">Editar</button>
-                        <button class="action-btn btn-delete" onclick="window.deleteProduct('${p.id}')">Excluir</button>
-                    </td>
-                </tr>`;
-            });
-            html += '</table>';
-            productList.innerHTML = html;
+            renderProductList();
         }
 
-        // Move Product
-        window.moveProduct = async (id, direction) => {
-            const currentIndex = window.productsData.findIndex(p => p.id === id);
-            if (currentIndex === -1) return;
+        function renderProductList() {
+            productList.innerHTML = '';
+            window.productsData.forEach((p) => {
+                const img = (p.images && p.images[0]) || p.image || '';
 
-            const targetIndex = currentIndex + direction;
-            if (targetIndex < 0 || targetIndex >= window.productsData.length) return;
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.dataset.id = p.id;
+                card.innerHTML = `
+                    <img src="${img}">
+                    <h3>${p.title}</h3>
+                    <div class="price">${p.price}</div>
+                    <div class="product-actions">
+                        <button class="action-btn btn-edit" onclick="window.editProduct('${p.id}')">Editar</button>
+                        <button class="action-btn btn-delete" onclick="window.deleteProduct('${p.id}')">Excluir</button>
+                    </div>
+                `;
+                productList.appendChild(card);
+            });
 
-            const currentProduct = window.productsData[currentIndex];
-            const targetProduct = window.productsData[targetIndex];
+            // Initialize Sortable
+            new Sortable(productList, {
+                animation: 150,
+                onEnd: async function (evt) {
+                    // Update local array order
+                    const itemEl = evt.item;
+                    const newIndex = evt.newIndex;
+                    const oldIndex = evt.oldIndex;
 
-            // Use array index as fallback position if null
-            const p1 = currentProduct.position !== null ? currentProduct.position : currentIndex;
-            const p2 = targetProduct.position !== null ? targetProduct.position : targetIndex;
+                    // Move item in array
+                    const movedItem = window.productsData.splice(oldIndex, 1)[0];
+                    window.productsData.splice(newIndex, 0, movedItem);
 
-            // Swap logic: if they are adjacent, we can just swap their 'position' values.
-            // But if 'position' values are messy (e.g. duplicates or nulls), this might be tricky.
-            // Robust way: Assign 'position' to ALL items based on current array order, then swap.
-            // But that's too many writes.
-            // Simple way: Swap their effective positions.
+                    // Update all positions in DB
+                    // Optimization: only update affected range? For simplicity, update all.
+                    // Or even better: just update the moved item and its neighbors?
+                    // Simplest robust way: update all 'position' fields to match index.
 
-            // If positions are equal (e.g. both 0 or null), we need to diverge them.
-            let newP1 = p2;
-            let newP2 = p1;
+                    // We will do it in background to not block UI
+                    try {
+                        const updates = window.productsData.map((p, idx) => ({
+                            id: p.id,
+                            position: idx
+                        }));
 
-            if (newP1 === newP2) {
-                newP1 = targetIndex;
-                newP2 = currentIndex; // actually targetIndex is where P1 wants to go
-                // Wait, if I want to move P1 to P2's spot.
-                // P1 should get P2's position value.
-                // P2 should get P1's position value.
-            }
-
-            try {
-                // Update one by one
-                await supabase.from('products').update({ position: newP1 }).eq('id', currentProduct.id);
-                await supabase.from('products').update({ position: newP2 }).eq('id', targetProduct.id);
-                loadProducts();
-            } catch (e) {
-                alert('Erro ao mover (verifique se a coluna "position" existe no Supabase): ' + e.message);
-            }
-        };
+                        // Supabase doesn't have a bulk update for different values easily without RPC.
+                        // We'll loop. It's not efficient for 1000 items, but fine for 50.
+                        for (const u of updates) {
+                            await supabase.from('products').update({ position: u.position }).eq('id', u.id);
+                        }
+                    } catch (e) {
+                        console.error('Erro ao reordenar', e);
+                    }
+                }
+            });
+        }
 
         // Edit
         window.editProduct = (id) => {
@@ -546,13 +944,9 @@
 
             formTitle.textContent = 'Editar Produto';
             submitBtn.textContent = 'Atualizar Produto';
-            cancelBtn.style.display = 'inline-block';
 
-            productForm.scrollIntoView({ behavior: 'smooth' });
+            showProductForm();
         };
-
-        // Cancel Edit
-        cancelBtn.addEventListener('click', resetForm);
 
         function resetForm() {
             productForm.reset();
@@ -561,7 +955,6 @@
             renderCurrentImages();
             formTitle.textContent = 'Cadastrar Produto';
             submitBtn.textContent = 'Salvar Produto';
-            cancelBtn.style.display = 'none';
         }
 
         // Image Handling
@@ -640,6 +1033,15 @@
                     throw new Error('O produto precisa de pelo menos uma imagem.');
                 }
 
+                // Determine position for new items (append to end)
+                let position = 9999;
+                if (!originalId && window.productsData.length > 0) {
+                    position = window.productsData.length;
+                } else if (originalId) {
+                    const existing = window.productsData.find(p => p.id === originalId);
+                    if (existing) position = existing.position;
+                }
+
                 const productData = {
                     id,
                     title,
@@ -649,7 +1051,8 @@
                     description,
                     features,
                     whatsapp,
-                    autoplay_interval
+                    autoplay_interval,
+                    position
                 };
 
                 let error;
@@ -672,8 +1075,13 @@
 
                 status.textContent = originalId ? 'Produto atualizado!' : 'Produto salvo!';
                 status.style.color = 'green';
-                resetForm();
-                loadProducts();
+
+                // Return to list
+                setTimeout(() => {
+                    status.textContent = '';
+                    hideProductForm();
+                    loadProducts();
+                }, 1000);
 
             } catch (err) {
                 console.error(err);

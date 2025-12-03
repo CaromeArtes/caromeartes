@@ -6,6 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CAROMÊ - Arte em Macramê</title>
   <style>
+    :root {
+      --bg-color: #F2E5D5;
+      --text-color: #803D16;
+      --header-bg: rgba(245, 241, 235, .96);
+      --header-shadow: rgba(139, 111, 71, .10);
+      --nav-link-hover: #F2E5D5;
+      --divider-color: #A0845C;
+      --hero-box-bg: rgba(139, 111, 71, .82);
+      --hero-text: #F2E5D5;
+      --section-title-color: #803D16;
+      --section-sub-color: #713519;
+      --accent-color: #A0845C;
+      --card-bg: #F7F7F7;
+      --card-shadow: rgba(139, 111, 71, .12);
+      --btn-bg: #803D16;
+      --btn-text: #F2E5D5;
+      --about-bg: #F7F3EE;
+      --about-card-bg: #F7F7F7;
+      --about-icon-bg: #EEF2E8;
+      --faq-item-bg: #F7F7F7;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -18,8 +40,8 @@
 
     body {
       font-family: Georgia, serif;
-      background: #F2E5D5;
-      color: #803D16;
+      background: var(--bg-color);
+      color: var(--text-color);
       line-height: 1.6;
     }
 
@@ -28,14 +50,14 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(245, 241, 235, .96);
+      background: var(--header-bg);
       backdrop-filter: blur(10px);
       padding: 20px 5% 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 20px rgba(139, 111, 71, .10);
+      box-shadow: 0 2px 20px var(--header-shadow);
     }
 
     .logo {
@@ -64,7 +86,7 @@
     }
 
     .nav-links a {
-      color: #803D16;
+      color: var(--text-color);
       text-decoration: none;
       font-size: 16px;
       padding: 4px 8px;
@@ -74,11 +96,11 @@
     }
 
     .nav-links a:hover {
-      background: #F2E5D5;
+      background: var(--nav-link-hover);
     }
 
     .nav-links .divider {
-      color: #A0845C;
+      color: var(--divider-color);
       opacity: .9;
       user-select: none;
     }
@@ -94,8 +116,8 @@
     }
 
     .hero .hero-box {
-      background: rgba(139, 111, 71, .82);
-      color: #F2E5D5;
+      background: var(--hero-box-bg);
+      color: var(--hero-text);
       padding: 40px 50px;
       border-radius: 18px;
       text-align: center;
@@ -119,13 +141,13 @@
       font-size: 36px;
       text-align: center;
       margin-bottom: 12px;
-      color: #803D16;
+      color: var(--section-title-color);
       position: relative;
     }
 
     .section-sub {
       text-align: center;
-      color: #713519;
+      color: var(--section-sub-color);
       margin-bottom: 34px;
     }
 
@@ -137,7 +159,7 @@
       transform: translateX(-50%);
       width: 60px;
       height: 3px;
-      background: #A0845C;
+      background: var(--accent-color);
       border-radius: 2px;
     }
 
@@ -160,10 +182,10 @@
     }
 
     .card {
-      background: #F7F7F7;
+      background: var(--card-bg);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 8px 22px rgba(139, 111, 71, .12);
+      box-shadow: 0 8px 22px var(--card-shadow);
       transition: transform .25s, box-shadow .25s;
       break-inside: avoid;
       margin-bottom: 28px;
@@ -232,12 +254,12 @@
 
     .price {
       font-weight: bold;
-      color: #803D16;
+      color: var(--text-color);
     }
 
     .btn {
-      background: #803D16;
-      color: #F2E5D5;
+      background: var(--btn-bg);
+      color: var(--btn-text);
       text-decoration: none;
       padding: 10px 14px;
       border-radius: 10px;
@@ -260,8 +282,8 @@
     }
 
     .modal .box {
-      background: #F7F7F7;
-      color: #713519;
+      background: var(--card-bg);
+      color: var(--section-sub-color);
       max-width: 900px;
       width: 95%;
       border-radius: 16px;
@@ -283,13 +305,13 @@
     }
 
     .modal .title {
-      color: #803D16;
+      color: var(--text-color);
       font-size: 24px;
       margin-bottom: 6px;
     }
 
     .modal .mprice {
-      color: #803D16;
+      color: var(--text-color);
       font-weight: bold;
       margin-bottom: 10px;
     }
@@ -311,7 +333,7 @@
       background: rgba(0, 0, 0, .6);
       border: none;
       font-size: 22px;
-      color: #F7F7F7;
+      color: var(--card-bg);
       cursor: pointer;
       width: 40px;
       height: 40px;
@@ -387,12 +409,12 @@
     }
 
     .carousel .dot.active {
-      background: #F7F7F7;
+      background: var(--card-bg);
     }
 
     /* Quem Somos */
     .about-history {
-      background: #F7F3EE;
+      background: var(--about-bg);
       border-radius: 16px;
     }
 
@@ -400,7 +422,7 @@
       max-width: 900px;
       margin: 16px auto 30px;
       text-align: center;
-      color: #713519;
+      color: var(--section-sub-color);
       font-size: 18px;
     }
 
@@ -411,21 +433,21 @@
     }
 
     .about-card {
-      background: #F7F7F7;
+      background: var(--about-card-bg);
       border-radius: 14px;
       padding: 28px 22px;
       text-align: center;
-      box-shadow: 0 8px 22px rgba(139, 111, 71, .12);
+      box-shadow: 0 8px 22px var(--card-shadow);
     }
 
     .about-card h3 {
-      color: #803D16;
+      color: var(--text-color);
       margin: 12px 0 8px;
       font-size: 20px;
     }
 
     .about-card p {
-      color: #713519;
+      color: var(--section-sub-color);
       font-size: 16px;
     }
 
@@ -437,8 +459,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #EEF2E8;
-      color: #803D16;
+      background: var(--about-icon-bg);
+      color: var(--text-color);
       font-size: 28px;
     }
 
@@ -455,17 +477,17 @@
     }
 
     .faq-item {
-      background: #F7F7F7;
+      background: var(--faq-item-bg);
       border-radius: 12px;
       padding: 14px 18px;
-      box-shadow: 0 6px 18px rgba(139, 111, 71, .12);
+      box-shadow: 0 6px 18px var(--card-shadow);
       margin-bottom: 14px;
     }
 
     .faq-item summary {
       cursor: pointer;
       font-weight: 600;
-      color: #803D16;
+      color: var(--text-color);
       list-style: none;
       outline: none;
     }
@@ -502,7 +524,7 @@
     }
 
     .cta .btn.secondary {
-      background: #A0845C;
+      background: var(--accent-color);
     }
   </style>
 </head>
@@ -526,7 +548,7 @@
 
   <section class="hero">
     <div class="hero-box">
-      <h1>Onde o fio se transforma em arte</h1>
+      <h1 id="heroTitle">Onde o fio se transforma em arte</h1>
     </div>
   </section>
 
@@ -538,7 +560,8 @@
 
   <section id="sobre" class="section about-history">
     <h2 class="section-title">Nossa História</h2>
-    <p class="about-intro">Cada peça é criada com amor e dedicação, utilizando técnicas tradicionais de macramê que
+    <p id="aboutIntro" class="about-intro">Cada peça é criada com amor e dedicação, utilizando técnicas tradicionais de
+      macramê que
       passaram de geração em geração. Nosso compromisso é trazer beleza natural e sustentável para sua casa.</p>
     <div class="about-grid">
       <article class="about-card">
@@ -624,7 +647,7 @@
 
   <footer id="contato" class="section">
     <h2 class="section-title">Contato</h2>
-    <div class="section-sub">Fale conosco para encomendas e dúvidas.</div>
+    <div id="contactSubtitle" class="section-sub">Fale conosco para encomendas e dúvidas.</div>
     <div class="cta">
       <a class="btn" href="https://wa.me/5541995358400" target="_blank" rel="noopener">WhatsApp</a>
       <a class="btn secondary" href="mailto:contato@caromeartes.com.br">E-mail</a>
@@ -655,6 +678,38 @@
 
   <script type="module">
     import { supabase } from './src/supabaseClient.js'
+
+    // Load Theme
+    async function loadTheme() {
+      try {
+        const { data, error } = await supabase.storage
+          .from('product-images')
+          .download('theme.json');
+
+        if (data) {
+          const text = await data.text();
+          const theme = JSON.parse(text);
+
+          // Apply Colors
+          const root = document.documentElement;
+          if (theme.colors) {
+            Object.entries(theme.colors).forEach(([key, value]) => {
+              root.style.setProperty(key, value);
+            });
+          }
+
+          // Apply Texts
+          if (theme.texts) {
+            if (theme.texts.heroTitle) document.getElementById('heroTitle').textContent = theme.texts.heroTitle;
+            if (theme.texts.aboutIntro) document.getElementById('aboutIntro').textContent = theme.texts.aboutIntro;
+            if (theme.texts.contactSubtitle) document.getElementById('contactSubtitle').textContent = theme.texts.contactSubtitle;
+          }
+        }
+      } catch (e) {
+        console.log('Using default theme');
+      }
+    }
+    loadTheme();
 
     // Estado simples do carrossel
     let carouselState = { images: [], index: 0, intervalId: null, autoplayTime: 2000 };
