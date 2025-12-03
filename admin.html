@@ -250,16 +250,6 @@
             border: 2px dashed #ccc;
         }
 
-        .banner-editor img {
-            position: absolute;
-            min-width: 100%;
-            min-height: 100%;
-            object-fit: cover;
-            pointer-events: none;
-            /* Let clicks pass to container */
-            transform-origin: top left;
-        }
-
         .banner-overlay {
             position: absolute;
             top: 0;
@@ -360,7 +350,7 @@
                 <div id="productsListView">
                     <h2>
                         Produtos
-                        <button onclick="showProductForm()" style="width: auto; margin: 0; font-size: 14px;">+ Novo
+                        <button onclick="startNewProduct()" style="width: auto; margin: 0; font-size: 14px;">+ Novo
                             Produto</button>
                     </h2>
                     <p style="color: #666; font-size: 14px; margin-bottom: 20px;">Arraste os itens para reordenar.</p>
@@ -425,14 +415,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Posição Visual (Arraste a imagem abaixo)</label>
+                        <label>Ajuste Visual (Arraste para mover, use o slider para zoom)</label>
                         <div id="bannerEditor" class="banner-editor">
-                            <img id="bannerPreview" src="" style="display: block;">
+                            <div id="bannerPreviewDiv"
+                                style="width: 100%; height: 100%; background-repeat: no-repeat; background-position: center; background-size: cover;">
+                            </div>
                             <div class="banner-overlay">Arraste para ajustar</div>
                         </div>
-                        <input type="hidden" id="bannerPosition">
-                        <small id="posDisplay" style="display: block; margin-top: 5px; color: #666;">Posição atual:
-                            center</small>
+
+                        <div style="margin-top: 10px; display: flex; align-items: center; gap: 10px;">
+                            <label for="bannerZoom" style="margin:0;">Zoom:</label>
+                            <input type="range" id="bannerZoom" min="100" max="250" value="100" style="flex: 1;">
+                            <span id="zoomDisplay">100%</span>
+                        </div>
+
+                        <input type="hidden" id="bannerPosition"> <!-- Stores "x% y% / size%" or just "x% y%" -->
+                        <small id="posDisplay" style="display: block; margin-top: 5px; color: #666;">Config: center /
+                            cover</small>
                     </div>
 
                     <button type="submit" id="saveBannerBtn">Salvar Banner</button>
@@ -532,9 +531,11 @@
         const saveBannerBtn = document.getElementById('saveBannerBtn');
         const bannerImageInput = document.getElementById('bannerImage');
         const bannerPositionInput = document.getElementById('bannerPosition');
-        const bannerPreview = document.getElementById('bannerPreview');
         const bannerEditor = document.getElementById('bannerEditor');
         const posDisplay = document.getElementById('posDisplay');
+        const bannerPreviewDiv = document.getElementById('bannerPreviewDiv');
+        const bannerZoomInput = document.getElementById('bannerZoom');
+        const zoomDisplay = document.getElementById('zoomDisplay');
 
         // Customization Elements
         const customizationForm = document.getElementById('customizationForm');
@@ -544,7 +545,7 @@
         // State
         let currentImagesList = [];
         window.productsData = [];
-        let bannerDrag = { active: false, startX: 0, startY: 0, initialX: 50, initialY: 50 }; // percentages
+        let bannerDrag = { active: false, initialX: 50, initialY: 50 }; // percentages
 
         // --- Navigation ---
         window.showSection = (sectionName) => {
@@ -566,7 +567,11 @@
         window.showProductForm = () => {
             productsListView.classList.add('hidden');
             productFormView.classList.remove('hidden');
+        };
+
+        window.startNewProduct = () => {
             resetForm();
+            showProductForm();
         };
 
         window.hideProductForm = () => {
@@ -628,30 +633,32 @@
         // --- Customization Logic ---
         async function loadCustomization() {
             try {
-                const { data, error } = await supabase.storage
+                const { data } = supabase.storage
                     .from('product-images')
-                    .download('theme.json');
+                    .getPublicUrl('theme.json');
 
-                if (data) {
-                    const text = await data.text();
-                    const theme = JSON.parse(text);
+                if (data && data.publicUrl) {
+                    const response = await fetch(data.publicUrl + '?t=' + new Date().getTime());
+                    if (response.ok) {
+                        const theme = await response.json();
 
-                    // Colors
-                    if (theme.colors) {
-                        if (theme.colors['--bg-color']) document.getElementById('color-bg').value = theme.colors['--bg-color'];
-                        if (theme.colors['--text-color']) document.getElementById('color-text').value = theme.colors['--text-color'];
-                        if (theme.colors['--accent-color']) document.getElementById('color-accent').value = theme.colors['--accent-color'];
-                        if (theme.colors['--header-bg']) document.getElementById('color-header-bg').value = theme.colors['--header-bg'];
-                        if (theme.colors['--card-bg']) document.getElementById('color-card-bg').value = theme.colors['--card-bg'];
-                        if (theme.colors['--btn-bg']) document.getElementById('color-btn-bg').value = theme.colors['--btn-bg'];
-                        if (theme.colors['--btn-text']) document.getElementById('color-btn-text').value = theme.colors['--btn-text'];
-                    }
+                        // Colors
+                        if (theme.colors) {
+                            if (theme.colors['--bg-color']) document.getElementById('color-bg').value = theme.colors['--bg-color'];
+                            if (theme.colors['--text-color']) document.getElementById('color-text').value = theme.colors['--text-color'];
+                            if (theme.colors['--accent-color']) document.getElementById('color-accent').value = theme.colors['--accent-color'];
+                            if (theme.colors['--header-bg']) document.getElementById('color-header-bg').value = theme.colors['--header-bg'];
+                            if (theme.colors['--card-bg']) document.getElementById('color-card-bg').value = theme.colors['--card-bg'];
+                            if (theme.colors['--btn-bg']) document.getElementById('color-btn-bg').value = theme.colors['--btn-bg'];
+                            if (theme.colors['--btn-text']) document.getElementById('color-btn-text').value = theme.colors['--btn-text'];
+                        }
 
-                    // Texts
-                    if (theme.texts) {
-                        document.getElementById('text-hero').value = theme.texts.heroTitle || '';
-                        document.getElementById('text-about').value = theme.texts.aboutIntro || '';
-                        document.getElementById('text-contact').value = theme.texts.contactSubtitle || '';
+                        // Texts
+                        if (theme.texts) {
+                            document.getElementById('text-hero').value = theme.texts.heroTitle || '';
+                            document.getElementById('text-about').value = theme.texts.aboutIntro || '';
+                            document.getElementById('text-contact').value = theme.texts.contactSubtitle || '';
+                        }
                     }
                 }
             } catch (e) {
@@ -704,6 +711,8 @@
 
 
         // --- Banner Logic (Visual Editor) ---
+        const DEFAULT_BANNER = 'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/PainelConchas.jpeg';
+
         async function loadBannerConfig() {
             try {
                 const { data, error } = await supabase
@@ -712,39 +721,76 @@
                     .eq('id', 'main')
                     .single();
 
+                let imgUrl = DEFAULT_BANNER;
+                let pos = '50% 50%';
+                let size = 'cover';
+
                 if (data) {
-                    const pos = data.banner_position || '50% 50%';
-                    bannerPositionInput.value = pos;
-                    posDisplay.textContent = `Posição atual: ${pos}`;
-
-                    if (data.banner_image) {
-                        bannerPreview.src = data.banner_image;
+                    if (data.banner_image) imgUrl = data.banner_image;
+                    if (data.banner_position) {
+                        // Format: "x% y% / size" or just "x% y%"
+                        const parts = data.banner_position.split('/');
+                        pos = parts[0].trim();
+                        if (parts.length > 1) {
+                            size = parts[1].trim();
+                        }
                     }
-
-                    // Parse position for visual editor
-                    const parts = pos.split(' ');
-                    if (parts.length >= 2) {
-                        bannerDrag.initialX = parseFloat(parts[0]);
-                        bannerDrag.initialY = parseFloat(parts[1]);
-                    } else if (pos === 'center') {
-                        bannerDrag.initialX = 50;
-                        bannerDrag.initialY = 50;
-                    }
-                    updateBannerPreviewStyle();
                 }
+
+                // Set Preview
+                bannerPreviewDiv.style.backgroundImage = `url('${imgUrl}')`;
+                bannerPreviewDiv.style.backgroundPosition = pos;
+                bannerPreviewDiv.style.backgroundSize = size;
+
+                // Set Inputs
+                bannerPositionInput.value = size === 'cover' ? pos : `${pos} / ${size}`;
+                posDisplay.textContent = `Config: ${bannerPositionInput.value}`;
+
+                // Parse position for drag state
+                const posParts = pos.split(' ');
+                if (posParts.length >= 2) {
+                    bannerDrag.initialX = parseFloat(posParts[0]);
+                    bannerDrag.initialY = parseFloat(posParts[1]);
+                } else if (pos === 'center') {
+                    bannerDrag.initialX = 50;
+                    bannerDrag.initialY = 50;
+                }
+
+                // Parse size for zoom slider
+                if (size.includes('%')) {
+                    const zoomVal = parseFloat(size);
+                    bannerZoomInput.value = zoomVal;
+                    zoomDisplay.textContent = `${zoomVal}%`;
+                } else {
+                    bannerZoomInput.value = 100;
+                    zoomDisplay.textContent = '100% (Cover)';
+                }
+
             } catch (e) {
                 console.error('Erro ao carregar banner', e);
             }
         }
 
-        function updateBannerPreviewStyle() {
-            bannerPreview.style.objectPosition = `${bannerDrag.initialX}% ${bannerDrag.initialY}%`;
+        function updateBannerConfigString() {
+            const x = bannerDrag.initialX;
+            const y = bannerDrag.initialY;
+            const zoom = bannerZoomInput.value;
+
+            const posStr = `${x}% ${y}%`;
+            const sizeStr = zoom == 100 ? 'cover' : `${zoom}%`;
+
+            bannerPreviewDiv.style.backgroundPosition = posStr;
+            bannerPreviewDiv.style.backgroundSize = sizeStr;
+
+            const configStr = `${posStr} / ${sizeStr}`;
+            bannerPositionInput.value = configStr;
+            posDisplay.textContent = `Config: ${configStr}`;
+            zoomDisplay.textContent = sizeStr;
         }
 
         // Visual Editor Events
         bannerEditor.addEventListener('mousedown', (e) => {
             bannerDrag.active = true;
-            // We don't use startX/Y for delta, we just set position based on mouse relative to container
             updateDragPosition(e);
         });
 
@@ -773,11 +819,13 @@
             bannerDrag.initialX = pctX;
             bannerDrag.initialY = pctY;
 
-            const posString = `${pctX}% ${pctY}%`;
-            bannerPositionInput.value = posString;
-            posDisplay.textContent = `Posição atual: ${posString}`;
-            updateBannerPreviewStyle();
+            updateBannerConfigString();
         }
+
+        // Zoom Event
+        bannerZoomInput.addEventListener('input', () => {
+            updateBannerConfigString();
+        });
 
         // Image change handler
         bannerImageInput.addEventListener('change', (e) => {
@@ -785,7 +833,7 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    bannerPreview.src = e.target.result;
+                    bannerPreviewDiv.style.backgroundImage = `url('${e.target.result}')`;
                 };
                 reader.readAsDataURL(file);
             }
@@ -798,45 +846,46 @@
             bannerStatus.textContent = '';
 
             try {
-                const position = bannerPositionInput.value;
-                const imageFile = bannerImageInput.files[0];
-                let publicUrl = null;
-
-                if (imageFile) {
-                    const fileExt = imageFile.name.split('.').pop();
-                    const fileName = `banner-${Date.now()}.${fileExt}`;
-                    const { error: uploadError } = await supabase.storage
-                        .from('product-images')
-                        .upload(fileName, imageFile);
-
-                    if (uploadError) throw uploadError;
-
-                    const { data } = supabase.storage
-                        .from('product-images')
-                        .getPublicUrl(fileName);
-                    publicUrl = data.publicUrl;
-                } else {
-                    if (bannerPreview.src && !bannerPreview.src.startsWith('data:')) {
-                        publicUrl = bannerPreview.src;
-                    }
+                // Get current image URL from style (if not changed) or upload new
+                let imageUrl = bannerPreviewDiv.style.backgroundImage.slice(5, -2); // remove url('...')
+                // Clean up quotes if present
+                if ((imageUrl.startsWith('"') && imageUrl.endsWith('"')) || (imageUrl.startsWith("'") && imageUrl.endsWith("'"))) {
+                    imageUrl = imageUrl.slice(1, -1);
                 }
 
+                const file = bannerImageInput.files[0];
+
+                if (file) {
+                    const fileName = `banner-${Date.now()}-${file.name}`;
+                    const { data, error } = await supabase.storage
+                        .from('product-images')
+                        .upload(fileName, file);
+
+                    if (error) throw error;
+
+                    const { data: publicData } = supabase.storage
+                        .from('product-images')
+                        .getPublicUrl(fileName);
+
+                    imageUrl = publicData.publicUrl;
+                }
+
+                // Upsert config
                 const { error } = await supabase
                     .from('site_config')
                     .upsert({
                         id: 'main',
-                        banner_image: publicUrl,
-                        banner_position: position
+                        banner_image: imageUrl,
+                        banner_position: bannerPositionInput.value
                     });
 
                 if (error) throw error;
 
-                bannerStatus.textContent = 'Banner atualizado!';
+                bannerStatus.textContent = 'Banner atualizado com sucesso!';
                 bannerStatus.style.color = 'green';
-
             } catch (err) {
                 console.error(err);
-                bannerStatus.textContent = 'Erro ao salvar banner: ' + err.message;
+                bannerStatus.textContent = 'Erro ao salvar: ' + err.message;
                 bannerStatus.style.color = 'red';
             } finally {
                 saveBannerBtn.disabled = false;
@@ -872,7 +921,12 @@
         function renderProductList() {
             productList.innerHTML = '';
             window.productsData.forEach((p) => {
-                const img = (p.images && p.images[0]) || p.image || '';
+                // Ensure images is array
+                let imgs = p.images;
+                if (!Array.isArray(imgs)) {
+                    imgs = p.image ? [p.image] : [];
+                }
+                const img = imgs.length > 0 ? imgs[0] : '';
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
@@ -903,19 +957,12 @@
                     window.productsData.splice(newIndex, 0, movedItem);
 
                     // Update all positions in DB
-                    // Optimization: only update affected range? For simplicity, update all.
-                    // Or even better: just update the moved item and its neighbors?
-                    // Simplest robust way: update all 'position' fields to match index.
-
-                    // We will do it in background to not block UI
                     try {
                         const updates = window.productsData.map((p, idx) => ({
                             id: p.id,
                             position: idx
                         }));
 
-                        // Supabase doesn't have a bulk update for different values easily without RPC.
-                        // We'll loop. It's not efficient for 1000 items, but fine for 50.
                         for (const u of updates) {
                             await supabase.from('products').update({ position: u.position }).eq('id', u.id);
                         }
@@ -939,7 +986,25 @@
             document.getElementById('features').value = (p.features || []).join(' | ');
             document.getElementById('autoplay_interval').value = p.autoplay_interval || 2000;
 
-            currentImagesList = p.images || (p.image ? [p.image] : []);
+            // Robustly handle images
+            let imgs = p.images;
+            if (typeof imgs === 'string') {
+                try {
+                    imgs = JSON.parse(imgs);
+                } catch (e) {
+                    if (imgs.includes(',')) {
+                        imgs = imgs.split(',').map(s => s.trim());
+                    } else {
+                        imgs = [imgs];
+                    }
+                }
+            }
+
+            if (!Array.isArray(imgs)) {
+                imgs = p.image ? [p.image] : [];
+            }
+
+            currentImagesList = imgs;
             renderCurrentImages();
 
             formTitle.textContent = 'Editar Produto';
@@ -948,35 +1013,6 @@
             showProductForm();
         };
 
-        function resetForm() {
-            productForm.reset();
-            document.getElementById('originalId').value = '';
-            currentImagesList = [];
-            renderCurrentImages();
-            formTitle.textContent = 'Cadastrar Produto';
-            submitBtn.textContent = 'Salvar Produto';
-        }
-
-        // Image Handling
-        window.removeImage = (idx) => {
-            currentImagesList.splice(idx, 1);
-            renderCurrentImages();
-        };
-
-        function renderCurrentImages() {
-            currentImagesDiv.innerHTML = '';
-            currentImagesList.forEach((url, idx) => {
-                const div = document.createElement('div');
-                div.className = 'img-preview-item';
-                div.innerHTML = `
-                    <img src="${url}">
-                    <button type="button" class="btn-remove-img" onclick="window.removeImage(${idx})">×</button>
-                `;
-                currentImagesDiv.appendChild(div);
-            });
-        }
-
-        // Delete
         window.deleteProduct = async (id) => {
             if (!confirm('Tem certeza que deseja excluir este produto?')) return;
 
@@ -988,112 +1024,124 @@
             }
         };
 
-        // Save (Insert/Update)
+        function resetForm() {
+            productForm.reset();
+            document.getElementById('originalId').value = '';
+            currentImagesList = [];
+            renderCurrentImages();
+            formTitle.textContent = 'Cadastrar Produto';
+            submitBtn.textContent = 'Salvar Produto';
+            status.textContent = '';
+        }
+
+        function renderCurrentImages() {
+            currentImagesDiv.innerHTML = '';
+            currentImagesList.forEach((url, index) => {
+                const div = document.createElement('div');
+                div.className = 'img-preview-item';
+                div.innerHTML = `
+                    <img src="${url}">
+                    <button type="button" class="btn-remove-img" onclick="removeImage(${index})">x</button>
+                `;
+                currentImagesDiv.appendChild(div);
+            });
+        }
+
+        window.removeImage = (index) => {
+            currentImagesList.splice(index, 1);
+            renderCurrentImages();
+        };
+
         productForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             submitBtn.disabled = true;
-            status.textContent = 'Processando...';
-            status.style.color = 'black';
+            submitBtn.textContent = 'Salvando...';
+            status.textContent = '';
+
+            const originalId = document.getElementById('originalId').value;
+            const id = document.getElementById('id').value;
+            const title = document.getElementById('title').value;
+            const price = document.getElementById('price').value;
+            const description = document.getElementById('description').value;
+            const features = document.getElementById('features').value.split('|').map(s => s.trim()).filter(Boolean);
+            const autoplay_interval = parseInt(document.getElementById('autoplay_interval').value) || 0;
+            const imageFiles = document.getElementById('image').files;
 
             try {
-                const originalId = document.getElementById('originalId').value;
-                const id = document.getElementById('id').value;
-                const title = document.getElementById('title').value;
-                const price = document.getElementById('price').value;
-                const description = document.getElementById('description').value;
-                const features = document.getElementById('features').value.split('|').map(f => f.trim()).filter(Boolean);
-                const autoplay_interval = parseInt(document.getElementById('autoplay_interval').value) || 2000;
-                const imageFiles = document.getElementById('image').files;
-
-                const whatsapp = `https://wa.me/5541995358400?text=Olá! Tenho interesse no item ${title}`;
-
                 // Upload new images
                 const newImageUrls = [];
                 for (let i = 0; i < imageFiles.length; i++) {
                     const file = imageFiles[i];
-                    const fileExt = file.name.split('.').pop();
-                    const fileName = `${id}-${Date.now()}-${i}.${fileExt}`;
-
-                    const { error: uploadError } = await supabase.storage
+                    const fileName = `${id}-${Date.now()}-${i}`;
+                    const { data, error } = await supabase.storage
                         .from('product-images')
                         .upload(fileName, file);
 
-                    if (uploadError) throw uploadError;
+                    if (error) throw error;
 
-                    const { data } = supabase.storage
+                    const { data: publicData } = supabase.storage
                         .from('product-images')
                         .getPublicUrl(fileName);
 
-                    newImageUrls.push(data.publicUrl);
+                    newImageUrls.push(publicData.publicUrl);
                 }
 
-                // Combine images
+                // Combine with existing images
                 const finalImages = [...currentImagesList, ...newImageUrls];
-                if (finalImages.length === 0) {
-                    throw new Error('O produto precisa de pelo menos uma imagem.');
-                }
-
-                // Determine position for new items (append to end)
-                let position = 9999;
-                if (!originalId && window.productsData.length > 0) {
-                    position = window.productsData.length;
-                } else if (originalId) {
-                    const existing = window.productsData.find(p => p.id === originalId);
-                    if (existing) position = existing.position;
-                }
+                const mainImage = finalImages.length > 0 ? finalImages[0] : null;
 
                 const productData = {
                     id,
                     title,
                     price,
-                    image: finalImages[0], // Main image
-                    images: finalImages,
                     description,
                     features,
-                    whatsapp,
                     autoplay_interval,
-                    position
+                    images: finalImages,
+                    image: mainImage // Keep legacy field for compatibility
                 };
 
                 let error;
                 if (originalId) {
                     // Update
-                    const { error: updateError } = await supabase
+                    const { error: err } = await supabase
                         .from('products')
                         .update(productData)
                         .eq('id', originalId);
-                    error = updateError;
+                    error = err;
                 } else {
                     // Insert
-                    const { error: insertError } = await supabase
+                    // Get max position
+                    const { data: maxPosData } = await supabase.from('products').select('position').order('position', { ascending: false }).limit(1);
+                    const nextPos = (maxPosData && maxPosData.length > 0) ? (maxPosData[0].position + 1) : 0;
+                    productData.position = nextPos;
+
+                    const { error: err } = await supabase
                         .from('products')
                         .insert([productData]);
-                    error = insertError;
+                    error = err;
                 }
 
                 if (error) throw error;
 
-                status.textContent = originalId ? 'Produto atualizado!' : 'Produto salvo!';
+                status.textContent = 'Produto salvo com sucesso!';
                 status.style.color = 'green';
-
-                // Return to list
                 setTimeout(() => {
-                    status.textContent = '';
                     hideProductForm();
                     loadProducts();
                 }, 1000);
 
             } catch (err) {
                 console.error(err);
-                status.textContent = 'Erro ao salvar: ' + err.message;
+                status.textContent = 'Erro: ' + err.message;
                 status.style.color = 'red';
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = document.getElementById('originalId').value ? 'Atualizar Produto' : 'Salvar Produto';
+                submitBtn.textContent = originalId ? 'Atualizar Produto' : 'Salvar Produto';
             }
         });
 
-        // Initialize
+        // Init
         checkUser();
 
     </script>
