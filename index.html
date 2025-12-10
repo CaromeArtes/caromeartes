@@ -290,6 +290,9 @@
       overflow: hidden;
       display: grid;
       grid-template-columns: 1fr 1fr;
+      /* Fix scrolling */
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal .img {
@@ -347,8 +350,6 @@
     @media (max-width: 800px) {
       .modal .box {
         grid-template-columns: 1fr;
-        max-height: 90vh;
-        overflow: auto;
       }
     }
 
