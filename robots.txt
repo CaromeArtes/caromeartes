@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://caromeartes.com.br/sitemap.xml
