@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://caromeartes.github.io/caromeartes/sitemap.xml
