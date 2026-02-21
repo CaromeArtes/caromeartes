@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://caromeartes.com.br/sitemap.xml
+
+Sitemap: https://caromeartes.github.io/caromeartes/sitemap.xml

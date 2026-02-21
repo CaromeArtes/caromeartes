@@ -1,0 +1,1051 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CAROMÊ - Arte em Macramê</title>
+    <meta name="description" content="Caromê Artes: Macramê exclusivo feito à mão com amor e sustentabilidade em Curitiba. Painéis, suportes de plantas e decoração artesanal única.">
+  <meta name="keywords" content="macramê, decoração artesanal, painel de macramê, Curitiba, artesanato sustentável, Caromê Artes">
+  <meta property="og:title" content="CAROMÊ - Arte em Macramê">
+  <meta property="og:description" content="Onde o fio se transforma em arte. Conheça nossas peças exclusivas feitas à mão.">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --bg-color: #F2E5D5;
+      --text-color: #803D16;
+      --header-bg: rgba(245, 241, 235, .96);
+      --header-shadow: rgba(139, 111, 71, .10);
+      --nav-link-hover: #F2E5D5;
+      --divider-color: #A0845C;
+      --hero-box-bg: rgba(139, 111, 71, .82);
+      --hero-text: #F2E5D5;
+      --section-title-color: #803D16;
+      --section-sub-color: #713519;
+      --accent-color: #A0845C;
+      --card-bg: #F7F7F7;
+      --card-shadow: rgba(139, 111, 71, .12);
+      --btn-bg: #803D16;
+      --btn-text: #F2E5D5;
+      --about-bg: #F7F3EE;
+      --about-card-bg: #F7F7F7;
+      --about-icon-bg: #EEF2E8;
+      --faq-item-bg: #F7F7F7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--header-bg);
+      backdrop-filter: blur(10px);
+      padding: 20px 5% 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 20px var(--header-shadow);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      transition: transform .3s;
+    }
+
+    .logo:hover {
+      transform: scale(1.03);
+    }
+
+    .logo img {
+      height: 110px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 16px;
+      padding: 4px 8px;
+      border-radius: 10px;
+      transition: background-color .2s;
+      text-transform: lowercase;
+    }
+
+    .nav-links a:hover {
+      background: var(--nav-link-hover);
+    }
+
+    .nav-links .divider {
+      color: var(--divider-color);
+      opacity: .9;
+      user-select: none;
+    }
+
+    /* Hero */
+    .hero {
+      margin-top: 160px;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(rgba(139, 111, 71, .35), rgba(139, 111, 71, .35)), url('https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/PainelConchas.jpeg') center/cover;
+    }
+
+    .hero .hero-box {
+      background: var(--hero-box-bg);
+      color: var(--hero-text);
+      padding: 40px 50px;
+      border-radius: 18px;
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, .2);
+    }
+
+    .hero .hero-box h1 {
+      font-weight: normal;
+      font-size: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .hero {
+        display: block;
+        min-height: auto;
+        padding-top: 260px;
+        background-position: top center !important;
+        background-size: 100% 250px !important;
+        background-repeat: no-repeat !important;
+      }
+
+      .hero .hero-box {
+        margin: 0 auto;
+        padding: 20px 15px;
+        width: 90%;
+        max-width: 100%;
+      }
+
+      .hero .hero-box h1 {
+        font-size: 24px;
+      }
+    }
+
+    /* Sections */
+    .section {
+      padding: 70px 5%;
+      max-width: 1200px;
+      margin: 0 auto;
+      scroll-margin-top: 160px;
+    }
+
+    .section-title {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 12px;
+      color: var(--section-title-color);
+      position: relative;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--section-sub-color);
+      margin-bottom: 34px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 2px;
+    }
+
+    /* Produtos */
+    .grid {
+      column-count: 3;
+      column-gap: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        column-count: 2;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        column-count: 1;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 22px var(--card-shadow);
+      transition: transform .25s, box-shadow .25s;
+      break-inside: avoid;
+      margin-bottom: 28px;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 34px rgba(139, 111, 71, .18);
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: opacity 0.3s;
+    }
+
+    .card-image-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      z-index: 2;
+    }
+
+    .card:hover .card-nav {
+      opacity: 1;
+    }
+
+    .card-nav:hover {
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .card-prev {
+      left: 10px;
+    }
+
+    .card-next {
+      right: 10px;
+    }
+
+    .card .info {
+      padding: 16px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .price {
+      font-weight: bold;
+      color: var(--text-color);
+    }
+
+    .btn {
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal .box {
+      background: var(--card-bg);
+      color: var(--section-sub-color);
+      max-width: 900px;
+      width: 95%;
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      /* Fix scrolling */
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal .img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      background: #000;
+    }
+
+    .modal .content {
+      padding: 22px;
+    }
+
+    .modal .title {
+      color: var(--text-color);
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .modal .mprice {
+      color: var(--text-color);
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .modal .features {
+      margin: 10px 0 16px;
+      padding-left: 18px;
+    }
+
+    /* Respeitar quebras de linha no campo de descrição */
+    .modal #mdesc {
+      white-space: pre-line;
+    }
+
+    .close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: rgba(0, 0, 0, .6);
+      border: none;
+      font-size: 22px;
+      color: var(--card-bg);
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2101;
+    }
+
+    @media (max-width: 800px) {
+      .modal .box {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;
+      background: #000;
+    }
+
+    .carousel .cnav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, .4);
+      color: #F7F7F7;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel .cnav:hover {
+      background: rgba(0, 0, 0, .6);
+    }
+
+    .carousel .prev {
+      left: 10px;
+    }
+
+    .carousel .next {
+      right: 10px;
+    }
+
+    .carousel .dots {
+      position: absolute;
+      bottom: 10px;
+      left: 0;
+      right: 0;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .6);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    .carousel .dot.active {
+      background: var(--card-bg);
+    }
+
+    /* Quem Somos */
+    .about-history {
+      background: var(--about-bg);
+      border-radius: 16px;
+    }
+
+    .about-intro {
+      max-width: 900px;
+      margin: 16px auto 30px;
+      text-align: center;
+      color: var(--section-sub-color);
+      font-size: 18px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .about-card {
+      background: var(--about-card-bg);
+      border-radius: 14px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 8px 22px var(--card-shadow);
+    }
+
+    .about-card h3 {
+      color: var(--text-color);
+      margin: 12px 0 8px;
+      font-size: 20px;
+    }
+
+    .about-card p {
+      color: var(--section-sub-color);
+      font-size: 16px;
+    }
+
+    .about-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 10px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--about-icon-bg);
+      color: var(--text-color);
+      font-size: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* FAQ */
+    .faq {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: var(--faq-item-bg);
+      border-radius: 12px;
+      padding: 14px 18px;
+      box-shadow: 0 6px 18px var(--card-shadow);
+      margin-bottom: 14px;
+    }
+
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-color);
+      list-style: none;
+      outline: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: '?';
+      float: right;
+      transition: transform .2s;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-a {
+      color: #713519;
+      margin-top: 8px;
+    }
+
+    .faq-a ul {
+      margin: 8px 0 0 18px;
+    }
+
+    /* Footer */
+    footer .cta {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta .btn.secondary {
+      background: var(--accent-color);
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <a class="logo" href="#">
+      <img src="https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/Logo2.png"
+        alt="CAROMÊ Logo">
+    </a>
+    <nav class="nav-links">
+      <a href="#produtos">produtos</a>
+      <span class="divider">/</span>
+      <a href="#faq">perguntas frequentes</a>
+      <span class="divider">/</span>
+      <a href="#sobre">quem somos</a>
+      <span class="divider">/</span>
+      <a href="#contato">contato</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-box">
+      <h1 id="heroTitle">Onde o fio se transforma em arte</h1>
+    </div>
+  </section>
+
+  <section id="produtos" class="section">
+    <h2 class="section-title">Produtos</h2>
+    <p class="section-sub">Peças artesanais feitas em macramê</p>
+    <div id="productsGrid" class="grid"></div>
+  </section>
+
+  <section id="sobre" class="section about-history">
+    <h2 class="section-title">Nossa História</h2>
+    <p id="aboutIntro" class="about-intro">Cada peça é criada com amor e dedicação, utilizando técnicas tradicionais de
+      macramê que
+      passaram de geração em geração. Nosso compromisso é trazer beleza natural e sustentável para sua casa.</p>
+    <div class="about-grid">
+      <article class="about-card">
+        <div class="about-icon">❤</div>
+        <h3>Feito com Amor</h3>
+        <p>Cada nó é cuidadosamente trabalhado, garantindo qualidade e durabilidade em todas as nossas peças artesanais.
+        </p>
+      </article>
+      <article class="about-card">
+        <div class="about-icon">🍃</div>
+        <h3>Sustentável</h3>
+        <p>Utilizamos apenas materiais naturais e ecologicamente corretos, respeitando o meio ambiente em todo processo.
+        </p>
+      </article>
+      <article class="about-card">
+        <div class="about-icon">🧶</div>
+        <h3>Tradição</h3>
+        <p>Preservamos técnicas ancestrais de macramê, mantendo viva a tradição artesanal em cada criação única.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="faq" class="section">
+    <h2 class="section-title">Perguntas Frequentes</h2>
+
+    <div class="faq">
+      <details class="faq-item" open>
+        <summary>Como faço para comprar uma peça?</summary>
+        <div class="faq-a">
+          Você pode escolher os modelos disponíveis em nossa loja online ou solicitar uma peça personalizada entrando em
+          contato conosco.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Vocês fazem peças sob medida?</summary>
+        <div class="faq-a">
+          Sim! Trabalhamos com personalização de cores, tamanhos e modelos. Basta nos enviar sua ideia e faremos um
+          orçamento exclusivo.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Quanto tempo leva para produzir uma peça?</summary>
+        <div class="faq-a">
+          O prazo varia conforme o tamanho e a complexidade da peça. Em média, peças pequenas ficam prontas em até 7
+          dias úteis, já peças maiores podem levar de 10 a 20 dias úteis.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Qual é o prazo de entrega?</summary>
+        <div class="faq-a">
+          O prazo depende da sua região e será informado na finalização da compra, além do tempo de produção da
+          peça.<br><br>
+          Para pedidos realizados em Curitiba e região, podemos enviar via Uber Flash ou combinar a retirada.
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Como devo cuidar do meu macramê?</summary>
+        <div class="faq-a">
+          <ul>
+            <li>Evite molhar as peças.</li>
+            <li>Se acumular poeira, utilize um pincel/pano macio ou aspirador de pó leve.</li>
+            <li>Não exponha diretamente ao sol por longos períodos para preservar as cores.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Por que escolher a Caromê?</summary>
+        <div class="faq-a">
+          Na Caromê, cada peça é feita à mão, com cuidado em cada detalhe, trazendo exclusividade e
+          autenticidade para
+          sua decoração. Diferente das produções em massa, nossos macramês são 100% artesanais, e podem ser
+          impermeabilizados para
+          maior durabilidade, nossas cavilhas de madeira são lixadas e envernizadas, que garantem acabamento
+          refinado. Além
+          disso, cada criação carrega o valor do feito à mão, tornando seu ambiente único, acolhedor e
+          cheio de
+          personalidade.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <footer id="contato" class="section">
+    <h2 class="section-title">Contato</h2>
+    <div id="contactSubtitle" class="section-sub">Fale conosco para encomendas e dúvidas.</div>
+    <div class="cta">
+      <a class="btn" href="https://wa.me/5541995358400" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn secondary" href="mailto:contato@caromeartes.com.br">E-mail</a>
+      <a class="btn secondary" href="https://www.instagram.com/caromeartes/" target="_blank"
+        rel="noopener">Instagram</a>
+    </div>
+  </footer>
+
+  <!-- Modal de produto -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="close" onclick="closeModal()" aria-label="Fechar">×</button>
+    <div class="box">
+      <div class="carousel" aria-label="Galeria de imagens do produto">
+        <button id="cprev" class="cnav prev" aria-label="Imagem anterior">‹</button>
+        <img id="mimg" class="img" alt="">
+        <button id="cnext" class="cnav next" aria-label="Próxima imagem">›</button>
+        <div id="mdots" class="dots" aria-hidden="false"></div>
+      </div>
+      <div class="content">
+        <div id="mtitle" class="title"></div>
+        <div id="mprice" class="mprice"></div>
+        <div id="mdesc"></div>
+        <ul id="mfeatures" class="features"></ul>
+        <a id="mwa" class="btn" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase } from './src/supabaseClient.js'
+
+    // Load Theme
+    async function loadTheme() {
+      try {
+        const { data } = supabase.storage
+          .from('product-images')
+          .getPublicUrl('theme.json');
+
+        if (data && data.publicUrl) {
+          const response = await fetch(data.publicUrl + '?t=' + new Date().getTime());
+          if (response.ok) {
+            const theme = await response.json();
+
+            // Apply Colors
+            const root = document.documentElement;
+            if (theme.colors) {
+              Object.entries(theme.colors).forEach(([key, value]) => {
+                root.style.setProperty(key, value);
+              });
+            }
+
+            // Apply Texts
+            if (theme.texts) {
+              const hero = document.getElementById('heroTitle');
+              if (hero) hero.textContent = theme.texts.heroTitle;
+
+              const about = document.getElementById('aboutIntro');
+              if (about) about.textContent = theme.texts.aboutIntro;
+
+              const contact = document.getElementById('contactSubtitle');
+              if (contact) contact.textContent = theme.texts.contactSubtitle;
+            }
+          }
+        }
+      } catch (e) {
+        console.log('Using default theme', e);
+      }
+    }
+    loadTheme();
+
+    // Load Banner
+    async function loadBanner() {
+      try {
+        const { data } = await supabase
+          .from('site_config')
+          .select('*')
+          .eq('id', 'main')
+          .single();
+
+        if (data) {
+          const hero = document.querySelector('.hero');
+          if (hero) {
+            let img = data.banner_image ||
+              'https://uompmspsrpswwofrrfwv.supabase.co/storage/v1/object/public/product-images/PainelConchas.jpeg';
+            let posSize = data.banner_position || 'center/cover';
+
+            if (!posSize.includes('/')) {
+              posSize += ' / cover';
+            }
+
+            if ((img.startsWith('"') && img.endsWith('"')) || (img.startsWith("'") && img.endsWith("'"))) {
+              img = img.slice(1, -1);
+            }
+
+            hero.style.background = `linear-gradient(rgba(139, 111, 71, .35), rgba(139, 111, 71, .35)), url('${img}') ${posSize}
+no-repeat`;
+          }
+        }
+      } catch (e) {
+        console.log('Error loading banner', e);
+      }
+    }
+    loadBanner();
+
+    // Estado simples do carrossel
+    let carouselState = { images: [], index: 0, intervalId: null, autoplayTime: 2000 };
+
+    async function loadProducts() {
+      try {
+        // Tenta buscar do Supabase primeiro
+        let products = [];
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('position', { ascending: true }); // Sort by position
+
+        if (!error && data && data.length > 0) {
+          products = data;
+        } else {
+          // If error (e.g. position column missing), try without sort
+          if (error) {
+            console.warn('Erro ao ordenar por position, tentando sem ordem:', error);
+            const { data: data2 } = await supabase.from('products').select('*');
+            if (data2) products = data2;
+          }
+        }
+
+        // Store globally for modal access
+        window.allProducts = products;
+
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = ''; // Limpa grid
+
+        for (const p of products) {
+          const card = document.createElement('div');
+          card.className = 'card';
+          // Garante array de imagens
+          if (!p.images) p.images = p.image ? [p.image] : [];
+
+          // Fallback if empty
+          if (p.images.length === 0) p.images = [''];
+
+          const hasMultiple = p.images.length > 1;
+          const firstImg = p.images[0];
+          const uniqueId = `card-${p.id}`;
+
+          let imageHtml = '';
+          if (hasMultiple) {
+            imageHtml = `
+                <div class="card-image-container" id="${uniqueId}">
+                    <button class="card-nav card-prev">‹</button>
+                    <img src="${firstImg}" alt="${p.title}" data-index="0">
+                    <button class="card-nav card-next">›</button>
+                </div>
+             `;
+          } else {
+            imageHtml = `
+                <div class="card-image-container">
+                    <img src="${firstImg}" alt="${p.title}">
+                </div>
+            `;
+          }
+
+          card.innerHTML = `
+            ${imageHtml}
+            <div class="info">
+              <div>
+                <h3>${p.title}</h3>
+                <div class="price">${p.price}</div>
+              </div>
+              <a href="#" class="btn" onclick="openModal('${p.id}'); return false;">Ver mais</a>
+            </div>
+          `;
+          grid.appendChild(card);
+
+          // Setup carousel events if multiple
+          if (hasMultiple) {
+            setupCardCarousel(uniqueId, p.images);
+          }
+        }
+
+      } catch (err) {
+        console.error('Erro ao carregar produtos:', err);
+      }
+    }
+
+    function setupCardCarousel(containerId, images) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const imgEl = container.querySelector('img');
+      const prevBtn = container.querySelector('.card-prev');
+      const nextBtn = container.querySelector('.card-next');
+      let idx = 0;
+      let intervalId = null;
+
+      const update = () => {
+        imgEl.style.opacity = 0;
+        setTimeout(() => {
+          imgEl.src = images[idx];
+          imgEl.style.opacity = 1;
+        }, 200);
+      };
+
+      const startCardAutoplay = () => {
+        stopCardAutoplay();
+        intervalId = setInterval(() => {
+          idx = (idx + 1) % images.length;
+          update();
+        }, 3000); // 3 seconds
+      };
+
+      const stopCardAutoplay = () => {
+        if (intervalId) clearInterval(intervalId);
+      };
+
+      // Start autoplay immediately
+      startCardAutoplay();
+
+      // Pause on hover
+      container.addEventListener('mouseenter', stopCardAutoplay);
+      container.addEventListener('mouseleave', startCardAutoplay);
+
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent modal open
+        stopCardAutoplay();
+        idx = (idx - 1 + images.length) % images.length;
+        update();
+      });
+
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent modal open
+        stopCardAutoplay();
+        idx = (idx + 1) % images.length;
+        update();
+      });
+    }
+
+    window.openModal = async (id) => {
+      // Try to find in local cache first
+      let p = window.allProducts ? window.allProducts.find(x => x.id == id) : null;
+
+      // Fallback fetch if not found (rare case)
+      if (!p) {
+        const { data } = await supabase.from('products').select('*').eq('id', id).single();
+        p = data;
+      }
+
+      if (!p) return;
+
+      const modal = document.getElementById('modal');
+      if (!modal) return;
+
+      document.getElementById('mtitle').textContent = p.title;
+      document.getElementById('mprice').textContent = p.price;
+      document.getElementById('mdesc').textContent = p.description;
+      document.getElementById('mwa').href = p.whatsapp;
+
+      const featuresList = document.getElementById('mfeatures');
+      featuresList.innerHTML = '';
+      if (p.features && p.features.length) {
+        p.features.forEach(f => {
+          const li = document.createElement('li');
+          li.textContent = f;
+          featuresList.appendChild(li);
+        });
+      }
+
+      // Carousel Modal
+      let imgs = p.images;
+      if (!imgs || !imgs.length) imgs = p.image ? [p.image] : [];
+      if (!imgs.length) imgs = [''];
+
+      carouselState.images = imgs;
+      carouselState.index = 0;
+      carouselState.autoplayTime = parseInt(p.autoplay_interval) || 2000;
+
+      updateCarousel();
+      startAutoplay();
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.closeModal = () => {
+      const modal = document.getElementById('modal');
+      if (modal) modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      stopAutoplay();
+    };
+
+    // Carousel Logic
+    const mimg = document.getElementById('mimg');
+    const mdots = document.getElementById('mdots');
+
+    function updateCarousel() {
+      if (!mimg) return;
+      mimg.style.opacity = 0;
+      setTimeout(() => {
+        mimg.src = carouselState.images[carouselState.index];
+        mimg.style.opacity = 1;
+      }, 200);
+
+      // Dots
+      if (mdots) {
+        mdots.innerHTML = '';
+        if (carouselState.images.length > 1) {
+          carouselState.images.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = `dot ${i === carouselState.index ? 'active' : ''}`;
+            dot.onclick = () => {
+              carouselState.index = i;
+              updateCarousel();
+              resetAutoplay();
+            };
+            mdots.appendChild(dot);
+          });
+        }
+      }
+    }
+
+    const cprev = document.getElementById('cprev');
+    if (cprev) {
+      cprev.onclick = () => {
+        carouselState.index = (carouselState.index - 1 + carouselState.images.length) % carouselState.images.length;
+        updateCarousel();
+        resetAutoplay();
+      };
+    }
+
+    const cnext = document.getElementById('cnext');
+    if (cnext) {
+      cnext.onclick = () => {
+        carouselState.index = (carouselState.index + 1) % carouselState.images.length;
+        updateCarousel();
+        resetAutoplay();
+      };
+    }
+
+    function startAutoplay() {
+      if (carouselState.images.length <= 1 || carouselState.autoplayTime <= 0) return; stopAutoplay();
+      carouselState.intervalId = setInterval(() => {
+        carouselState.index = (carouselState.index + 1) % carouselState.images.length;
+        updateCarousel();
+      }, carouselState.autoplayTime);
+    }
+
+    function stopAutoplay() {
+      if (carouselState.intervalId) clearInterval(carouselState.intervalId);
+    }
+
+    function resetAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    // Close modal on outside click
+    const modalEl = document.getElementById('modal');
+    if (modalEl) {
+      modalEl.addEventListener('click', (e) => {
+        if (e.target.id === 'modal') window.closeModal();
+      });
+    }
+
+    // Init
+    loadProducts();
+  </script>
+</body>
+
+</html>
