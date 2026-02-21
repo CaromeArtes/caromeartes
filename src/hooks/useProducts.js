@@ -44,7 +44,9 @@ export function useProducts() {
                 images: Array.isArray(p.images) && p.images.length > 0 ? p.images : [p.image || './images/placeholder.jpg'],
                 price: typeof p.price === 'string'
                     ? parseFloat(p.price.replace(/[^\d.,]/g, '').replace(',', '.')) || 0
-                    : parseFloat(p.price) || 0
+                    : parseFloat(p.price) || 0,
+                category: p.category || 'Geral', // Garante a manutenção da categoria
+                description: p.description || ''
             }));
         }
 

@@ -58,9 +58,14 @@ export function ProductForm({ product, onClose, onSave }) {
 
     const handleAddCategory = (e) => {
         e.preventDefault();
-        if (newCategory.trim() && !categories.includes(newCategory.trim())) {
-            setCategories(prev => [...prev, newCategory.trim()]);
-            setFormData(prev => ({ ...prev, category: newCategory.trim() }));
+        const value = newCategory.trim();
+        if (value && !categories.includes(value)) {
+            setCategories(prev => [...prev, value]);
+            setFormData(prev => ({ ...prev, category: value }));
+            setNewCategory('');
+            setIsAddingCategory(false);
+        } else if (categories.includes(value)) {
+            setFormData(prev => ({ ...prev, category: value }));
             setNewCategory('');
             setIsAddingCategory(false);
         }
