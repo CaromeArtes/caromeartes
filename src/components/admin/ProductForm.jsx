@@ -123,7 +123,7 @@ export function ProductForm({ product, onClose, onSave }) {
                 images: formData.images,
                 colors: formData.colors ? formData.colors.split(',').map(c => c.trim()).filter(Boolean) : [],
                 highlight: Boolean(formData.highlight),
-                bestSeller: Boolean(formData.bestSeller)
+                bestseller: Boolean(formData.bestSeller)
             };
 
             const { error } = product?.id

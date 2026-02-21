@@ -48,7 +48,7 @@ export function useProducts() {
                 category: p.category || 'Geral', // Garante a manutenção da categoria
                 description: p.description || '',
                 highlight: Boolean(p.highlight),
-                bestSeller: Boolean(p.bestSeller)
+                bestSeller: Boolean(p.bestseller || p.bestSeller)
             }));
         }
 

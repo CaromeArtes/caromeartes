@@ -96,7 +96,7 @@ ALTER TABLE products ADD COLUMN IF NOT EXISTS image TEXT;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS images TEXT[];
 ALTER TABLE products ADD COLUMN IF NOT EXISTS category TEXT;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS highlight BOOLEAN DEFAULT false;
-ALTER TABLE products ADD COLUMN IF NOT EXISTS bestSeller BOOLEAN DEFAULT false;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS bestseller BOOLEAN DEFAULT false;
 
 -- Para a coluna colors, vamos criá-la como TEXT[] (array). 
 -- Se ela já existir como TEXT, ela é convertida silenciosamente
