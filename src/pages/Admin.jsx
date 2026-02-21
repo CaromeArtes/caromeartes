@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Package, Image as ImageIcon, Plus, Search, Filter } from 'lucide-react';
+import { LogOut, Package, Image as ImageIcon, Plus, Search, Filter, ChevronUp, ChevronDown } from 'lucide-react';
 
 import { ProductForm } from '../components/admin/ProductForm';
 import { BannerForm } from '../components/admin/BannerForm';
@@ -15,7 +15,7 @@ export function Admin() {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterCategory, setFilterCategory] = useState('');
-    const [sortBy, setSortBy] = useState('newest');
+    const [sortConfig, setSortConfig] = useState({ key: 'created_at', direction: 'desc' });
 
     const handleLogout = async () => {
         const { error } = await supabase.auth.signOut();
@@ -26,7 +26,7 @@ export function Admin() {
     useEffect(() => {
         setSearchTerm('');
         setFilterCategory('');
-        setSortBy('newest');
+        setSortConfig({ key: 'created_at', direction: 'desc' });
         fetchData();
     }, [activeTab]);
 
@@ -82,26 +82,57 @@ export function Admin() {
 
         return matchesSearch && matchesCategory;
     }).sort((a, b) => {
-        if (activeTab !== 'products') return 0; // mantém ordem do supabase para banners
+        if (activeTab !== 'products') {
+            if (sortConfig.key === 'title') {
+                return sortConfig.direction === 'asc'
+                    ? (a.title || '').localeCompare(b.title || '')
+                    : (b.title || '').localeCompare(a.title || '');
+            }
+            if (sortConfig.key === 'order') {
+                return sortConfig.direction === 'asc'
+                    ? (a.order || 0) - (b.order || 0)
+                    : (b.order || 0) - (a.order || 0);
+            }
+            if (sortConfig.key === 'active') {
+                return sortConfig.direction === 'asc'
+                    ? (a.active === b.active ? 0 : a.active ? -1 : 1)
+                    : (a.active === b.active ? 0 : a.active ? 1 : -1);
+            }
+            return 0; // mantém ordem padrão
+        }
 
         const parsePrc = (val) => typeof val === 'string' ? parseFloat(val.replace(/[^\d.,]/g, '').replace(',', '.')) : (parseFloat(val) || 0);
-        const priceA = parsePrc(a.price);
-        const priceB = parsePrc(b.price);
+        const directionMultiplier = sortConfig.direction === 'asc' ? 1 : -1;
 
-        switch (sortBy) {
-            case 'price-asc':
-                return priceA - priceB;
-            case 'price-desc':
-                return priceB - priceA;
-            case 'name-asc':
-                return (a.name || a.title || '').localeCompare(b.name || b.title || '');
-            case 'oldest':
-                return new Date(a.created_at || 0) - new Date(b.created_at || 0);
-            case 'newest':
+        switch (sortConfig.key) {
+            case 'price':
+                return (parsePrc(a.price) - parsePrc(b.price)) * directionMultiplier;
+            case 'name':
+                return (a.name || a.title || '').localeCompare(b.name || b.title || '') * directionMultiplier;
+            case 'category':
+                return (a.category || '').localeCompare(b.category || '') * directionMultiplier;
+            case 'created_at':
             default:
-                return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+                return (new Date(a.created_at || 0) - new Date(b.created_at || 0)) * directionMultiplier;
         }
     });
+
+    const handleSort = (key) => {
+        let direction = 'asc';
+        if (sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const SortIcon = ({ columnKey }) => {
+        if (sortConfig.key !== columnKey) {
+            return <ChevronDown size={14} className="opacity-0 group-hover:opacity-30 transition-opacity" />;
+        }
+        return sortConfig.direction === 'asc'
+            ? <ChevronUp size={14} className="text-primary" />
+            : <ChevronDown size={14} className="text-primary" />;
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -185,18 +216,6 @@ export function Admin() {
                                         <option key={cat} value={cat}>{cat}</option>
                                     ))}
                                 </select>
-
-                                <select
-                                    value={sortBy}
-                                    onChange={(e) => setSortBy(e.target.value)}
-                                    className="px-4 py-2 rounded-lg border border-gray-200 outline-none focus:border-primary text-sm bg-white"
-                                >
-                                    <option value="newest">Mais Recentes</option>
-                                    <option value="oldest">Mais Antigos</option>
-                                    <option value="price-asc">Menor Preço</option>
-                                    <option value="price-desc">Maior Preço</option>
-                                    <option value="name-asc">Ordem Alfabética (A-Z)</option>
-                                </select>
                             </>
                         )}
                     </div>
@@ -209,11 +228,29 @@ export function Admin() {
                                 <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
                                     <tr>
                                         <th className="px-4 py-3 rounded-tl-lg">Imagem</th>
-                                        <th className="px-4 py-3">Título/Nome</th>
-                                        {activeTab === 'products' && <th className="px-4 py-3">Preço</th>}
-                                        {activeTab === 'products' && <th className="px-4 py-3">Categoria</th>}
-                                        {activeTab === 'banners' && <th className="px-4 py-3">Ordem</th>}
-                                        {activeTab === 'banners' && <th className="px-4 py-3">Status</th>}
+                                        <th className="px-4 py-3 cursor-pointer group select-none hover:bg-gray-100 transition-colors" onClick={() => handleSort(activeTab === 'products' ? 'name' : 'title')}>
+                                            <div className="flex items-center gap-1">Título/Nome <SortIcon columnKey={activeTab === 'products' ? 'name' : 'title'} /></div>
+                                        </th>
+                                        {activeTab === 'products' && (
+                                            <>
+                                                <th className="px-4 py-3 cursor-pointer group select-none hover:bg-gray-100 transition-colors" onClick={() => handleSort('price')}>
+                                                    <div className="flex items-center gap-1">Preço <SortIcon columnKey="price" /></div>
+                                                </th>
+                                                <th className="px-4 py-3 cursor-pointer group select-none hover:bg-gray-100 transition-colors" onClick={() => handleSort('category')}>
+                                                    <div className="flex items-center gap-1">Categoria <SortIcon columnKey="category" /></div>
+                                                </th>
+                                            </>
+                                        )}
+                                        {activeTab === 'banners' && (
+                                            <>
+                                                <th className="px-4 py-3 cursor-pointer group select-none hover:bg-gray-100 transition-colors" onClick={() => handleSort('order')}>
+                                                    <div className="flex items-center gap-1">Ordem <SortIcon columnKey="order" /></div>
+                                                </th>
+                                                <th className="px-4 py-3 cursor-pointer group select-none hover:bg-gray-100 transition-colors" onClick={() => handleSort('active')}>
+                                                    <div className="flex items-center gap-1">Status <SortIcon columnKey="active" /></div>
+                                                </th>
+                                            </>
+                                        )}
                                         <th className="px-4 py-3 rounded-tr-lg">Ações</th>
                                     </tr>
                                 </thead>
