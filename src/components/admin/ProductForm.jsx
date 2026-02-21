@@ -10,7 +10,9 @@ export function ProductForm({ product, onClose, onSave }) {
         description: '',
         image: '',
         images: [],
-        colors: ''
+        colors: '',
+        highlight: false,
+        bestSeller: false
     });
     const [categories, setCategories] = useState(['Geral', 'Painéis', 'Colares de Mesa', 'Suporte de Plantas', 'Luminárias', 'Prendedor de Cortina', 'Quadros Têxteis']);
     const [isAddingCategory, setIsAddingCategory] = useState(false);
@@ -34,7 +36,9 @@ export function ProductForm({ product, onClose, onSave }) {
                 description: product.description || '',
                 image: product.image || '',
                 images: Array.isArray(product.images) ? product.images : (product.image ? [product.image] : []),
-                colors: Array.isArray(product.colors) ? product.colors.join(', ') : (product.colors || '')
+                colors: Array.isArray(product.colors) ? product.colors.join(', ') : (product.colors || ''),
+                highlight: Boolean(product.highlight),
+                bestSeller: Boolean(product.bestSeller)
             });
         }
     }, [product]);
@@ -117,7 +121,9 @@ export function ProductForm({ product, onClose, onSave }) {
                 image: formData.image,
                 category: formData.category || 'Geral',
                 images: formData.images,
-                colors: formData.colors ? formData.colors.split(',').map(c => c.trim()).filter(Boolean) : []
+                colors: formData.colors ? formData.colors.split(',').map(c => c.trim()).filter(Boolean) : [],
+                highlight: Boolean(formData.highlight),
+                bestSeller: Boolean(formData.bestSeller)
             };
 
             const { error } = product?.id
@@ -245,6 +251,27 @@ export function ProductForm({ product, onClose, onSave }) {
                             placeholder="Ex: Cru, Bege, Terracota"
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 outline-none"
                         />
+                    </div>
+
+                    <div className="flex flex-wrap gap-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={formData.highlight}
+                                onChange={(e) => setFormData(p => ({ ...p, highlight: e.target.checked }))}
+                                className="w-5 h-5 text-primary rounded border-gray-300 focus:ring-primary"
+                            />
+                            <span className="text-sm font-medium text-gray-700">Produto Destaque</span>
+                        </label>
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={formData.bestSeller}
+                                onChange={(e) => setFormData(p => ({ ...p, bestSeller: e.target.checked }))}
+                                className="w-5 h-5 text-green-600 rounded border-gray-300 focus:ring-green-600"
+                            />
+                            <span className="text-sm font-medium text-gray-700">Mais Vendido</span>
+                        </label>
                     </div>
 
                     <div>

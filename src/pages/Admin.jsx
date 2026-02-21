@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Package, Image as ImageIcon, Plus, Search, Filter, ChevronUp, ChevronDown } from 'lucide-react';
+import { LogOut, Package, Image as ImageIcon, Plus, Search, Filter, ChevronUp, ChevronDown, Star, Flame } from 'lucide-react';
 
 import { ProductForm } from '../components/admin/ProductForm';
 import { BannerForm } from '../components/admin/BannerForm';
@@ -272,7 +272,15 @@ export function Admin() {
                                                     />
                                                 </td>
                                                 <td className="px-4 py-3 font-medium">
-                                                    {item.title || item.name || 'Sem título'}
+                                                    <div className="flex items-center gap-2">
+                                                        {item.title || item.name || 'Sem título'}
+                                                        {activeTab === 'products' && item.highlight && (
+                                                            <Star size={16} className="text-yellow-500 fill-yellow-500" title="Destaque" />
+                                                        )}
+                                                        {activeTab === 'products' && item.bestSeller && (
+                                                            <Flame size={16} className="text-red-500 fill-red-500" title="Mais Vendido" />
+                                                        )}
+                                                    </div>
                                                     {activeTab === 'banners' && <div className="text-xs text-gray-400">{item.subtitle}</div>}
                                                 </td>
 

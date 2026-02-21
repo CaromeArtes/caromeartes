@@ -46,7 +46,9 @@ export function useProducts() {
                     ? parseFloat(p.price.replace(/[^\d.,]/g, '').replace(',', '.')) || 0
                     : parseFloat(p.price) || 0,
                 category: p.category || 'Geral', // Garante a manutenção da categoria
-                description: p.description || ''
+                description: p.description || '',
+                highlight: Boolean(p.highlight),
+                bestSeller: Boolean(p.bestSeller)
             }));
         }
 
