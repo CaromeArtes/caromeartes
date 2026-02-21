@@ -99,5 +99,5 @@ END $$;
 -- 4. POPOULAR DADOS INICIAIS (SEED)
 -- Inserir banner padrão se a tabela estiver vazia
 INSERT INTO banners (title, subtitle, image_url, active, "order")
-SELECT 'Arte em Macramê', 'Peças exclusivas feitas à mão para transformar seu ambiente.', '/caromeartes/images/hero-bg.jpeg', true, 1
+SELECT 'Arte em Macramê', 'Peças exclusivas feitas à mão para transformar seu ambiente.', '/images/hero-bg.jpeg', true, 1
 WHERE NOT EXISTS (SELECT 1 FROM banners);
