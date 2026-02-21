@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Package, Image as ImageIcon, Plus } from 'lucide-react';
+import { LogOut, Package, Image as ImageIcon, Plus, Search, Filter } from 'lucide-react';
 
 import { ProductForm } from '../components/admin/ProductForm';
 import { BannerForm } from '../components/admin/BannerForm';
@@ -13,6 +13,9 @@ export function Admin() {
     const [loading, setLoading] = useState(true);
     const [selectedItem, setSelectedItem] = useState(null);
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterCategory, setFilterCategory] = useState('');
+    const [sortBy, setSortBy] = useState('newest');
 
     const handleLogout = async () => {
         const { error } = await supabase.auth.signOut();
@@ -21,6 +24,9 @@ export function Admin() {
     };
 
     useEffect(() => {
+        setSearchTerm('');
+        setFilterCategory('');
+        setSortBy('newest');
         fetchData();
     }, [activeTab]);
 
@@ -57,6 +63,45 @@ export function Admin() {
             setLoading(false);
         }
     }
+
+    const categories = activeTab === 'products'
+        ? [...new Set(data.map(item => item.category).filter(Boolean))]
+        : [];
+
+    const filteredData = data.filter(item => {
+        if (activeTab !== 'products') {
+            const term = searchTerm.toLowerCase();
+            return !term || (item.title && item.title.toLowerCase().includes(term)) || (item.name && item.name.toLowerCase().includes(term));
+        }
+
+        const matchesSearch = !searchTerm ||
+            (item.name || item.title || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (item.description || '').toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesCategory = !filterCategory || item.category === filterCategory;
+
+        return matchesSearch && matchesCategory;
+    }).sort((a, b) => {
+        if (activeTab !== 'products') return 0; // mantém ordem do supabase para banners
+
+        const parsePrc = (val) => typeof val === 'string' ? parseFloat(val.replace(/[^\d.,]/g, '').replace(',', '.')) : (parseFloat(val) || 0);
+        const priceA = parsePrc(a.price);
+        const priceB = parsePrc(b.price);
+
+        switch (sortBy) {
+            case 'price-asc':
+                return priceA - priceB;
+            case 'price-desc':
+                return priceB - priceA;
+            case 'name-asc':
+                return (a.name || a.title || '').localeCompare(b.name || b.title || '');
+            case 'oldest':
+                return new Date(a.created_at || 0) - new Date(b.created_at || 0);
+            case 'newest':
+            default:
+                return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+        }
+    });
 
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -115,6 +160,47 @@ export function Admin() {
                         </button>
                     </div>
 
+                    {/* Toolbar de Filtros */}
+                    <div className="flex flex-col md:flex-row gap-4 mb-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
+                        <div className="flex-1 relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <input
+                                type="text"
+                                placeholder={`Buscar ${activeTab === 'products' ? 'produto' : 'banner'}...`}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 outline-none focus:border-primary focus:ring-1 focus:ring-primary text-sm"
+                            />
+                        </div>
+
+                        {activeTab === 'products' && (
+                            <>
+                                <select
+                                    value={filterCategory}
+                                    onChange={(e) => setFilterCategory(e.target.value)}
+                                    className="px-4 py-2 rounded-lg border border-gray-200 outline-none focus:border-primary text-sm bg-white"
+                                >
+                                    <option value="">Todas as Categorias</option>
+                                    {categories.map(cat => (
+                                        <option key={cat} value={cat}>{cat}</option>
+                                    ))}
+                                </select>
+
+                                <select
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                    className="px-4 py-2 rounded-lg border border-gray-200 outline-none focus:border-primary text-sm bg-white"
+                                >
+                                    <option value="newest">Mais Recentes</option>
+                                    <option value="oldest">Mais Antigos</option>
+                                    <option value="price-asc">Menor Preço</option>
+                                    <option value="price-desc">Maior Preço</option>
+                                    <option value="name-asc">Ordem Alfabética (A-Z)</option>
+                                </select>
+                            </>
+                        )}
+                    </div>
+
                     {loading ? (
                         <div className="text-center py-12 text-gray-500">Carregando...</div>
                     ) : (
@@ -132,14 +218,14 @@ export function Admin() {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
-                                    {data.length === 0 ? (
+                                    {filteredData.length === 0 ? (
                                         <tr>
-                                            <td colSpan={activeTab === 'products' ? 5 : 5} className="px-4 py-8 text-center text-gray-500 italic">
-                                                Nenhum {activeTab === 'products' ? 'produto' : 'banner'} encontrado. Clique em "Adicionar Novo" para começar.
+                                            <td colSpan={5} className="px-4 py-8 text-center text-gray-500 italic">
+                                                Nenhum {activeTab === 'products' ? 'produto' : 'banner'} encontrado. Clique em "Adicionar Novo" para começar ou limpe os filtros.
                                             </td>
                                         </tr>
                                     ) : (
-                                        data.map(item => (
+                                        filteredData.map(item => (
                                             <tr key={item.id} className="hover:bg-gray-50">
                                                 <td className="px-4 py-3">
                                                     <img
