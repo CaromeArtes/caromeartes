@@ -29,7 +29,7 @@ export function useBanners() {
                 id: 'default',
                 title: "Arte em Macramê",
                 subtitle: "Peças exclusivas feitas à mão para transformar seu ambiente.",
-                image_url: "/images/hero-bg.jpeg",
+                image_url: "./images/hero-bg.jpeg",
                 active: true
             }]);
         } finally {

@@ -10,7 +10,7 @@ export function Header() {
             <div className="container mx-auto px-4 py-4 flex flex-col items-center gap-4">
                 {/* Logo */}
                 <a href="#" className="hover:scale-105 transition-transform duration-300">
-                    <img src="/images/logo.png" alt="CaromeArtes Logo" className="h-28 w-auto object-contain drop-shadow-sm" />
+                    <img src="./images/logo.png" alt="CaromeArtes Logo" className="h-28 w-auto object-contain drop-shadow-sm" />
                 </a>
 
                 {/* Desktop Nav */}

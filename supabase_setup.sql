@@ -81,10 +81,35 @@ BEGIN
 END $$;
 
 
--- 3. GARANTIR COLUNAS EM PRODUCTS
+-- 3. GARANTIR A TABELA E COLUNAS EM PRODUCTS
+-- Cria a tabela base se ela ainda não existir
+CREATE TABLE IF NOT EXISTS products (
+    id TEXT PRIMARY KEY
+);
+
 -- Adicionar colunas se não existirem
+ALTER TABLE products ADD COLUMN IF NOT EXISTS title TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS name TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS description TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS price NUMERIC;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS image TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS images TEXT[];
 ALTER TABLE products ADD COLUMN IF NOT EXISTS category TEXT;
-ALTER TABLE products ADD COLUMN IF NOT EXISTS colors TEXT; 
+
+-- Para a coluna colors, vamos criá-la como TEXT[] (array). 
+-- Se ela já existir como TEXT, ela é convertida silenciosamente
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='products' AND column_name='colors') THEN
+        ALTER TABLE products ADD COLUMN colors TEXT[];
+    ELSE
+        ALTER TABLE products ALTER COLUMN colors TYPE TEXT[] USING ARRAY[colors];
+    END IF;
+EXCEPTION
+    WHEN others THEN
+        -- Ignora erros se já for TEXT[]
+END $$;
+
 ALTER TABLE products ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT now();
 
 -- Políticas de segurança para products
@@ -96,8 +121,12 @@ BEGIN
 END $$;
 
 
--- 4. POPOULAR DADOS INICIAIS (SEED)
+-- 4. POPOULAR DADOS INICIAIS E CORRIGIR VEREDAS DE ARQUIVOS ESTATICOS
+-- Atualizar se existirem banners quebrados com /images/ 
+-- Isso evita erro 404 quando o deploy for num subdiretório (como Github Pages)
+UPDATE banners SET image_url = 'images/hero-bg.jpeg' WHERE image_url = '/images/hero-bg.jpeg';
+
 -- Inserir banner padrão se a tabela estiver vazia
 INSERT INTO banners (title, subtitle, image_url, active, "order")
-SELECT 'Arte em Macramê', 'Peças exclusivas feitas à mão para transformar seu ambiente.', '/images/hero-bg.jpeg', true, 1
+SELECT 'Arte em Macramê', 'Peças exclusivas feitas à mão para transformar seu ambiente.', 'images/hero-bg.jpeg', true, 1
 WHERE NOT EXISTS (SELECT 1 FROM banners);
